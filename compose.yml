@@ -1,0 +1,71 @@
+services:
+  next:
+    container_name: next
+    build: ./frontend
+    volumes:
+      - ./frontend:/usr/src/app
+      - node_modules:/usr/src/app/node_modules
+    networks:
+      - transcendence
+    env_file:
+      - .env
+    # ports:
+    #   - "3000:3000"
+    depends_on:
+      - django
+
+  django:
+    container_name: django
+    build: ./backend
+    volumes:
+      - ./backend:/usr/src/app
+    networks:
+      - transcendence
+    env_file:
+      - .env
+    # ports:
+    #   - "8000:8000"
+    depends_on:
+      - db
+      - redis
+
+  nginx:
+    container_name: nginx
+    build: ./nginx
+    networks:
+      - transcendence
+    ports:
+      - "4000:4000"
+    depends_on:
+      - next
+      - django
+
+  redis:
+    container_name: redis
+    image: redis:7
+    networks:
+      - transcendence
+
+  db:
+    container_name: db
+    image: postgres:16.3
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - transcendence
+    environment:
+      - POSTGRES_DB=${SQL_DATABASE}
+      - POSTGRES_USER=${SQL_USER}
+      - POSTGRES_PASSWORD=${SQL_PASSWORD}
+
+
+
+volumes:
+  db_data:
+  node_modules:
+  static:
+  media:
+
+networks:
+  transcendence:
+    driver: bridge
