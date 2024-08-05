@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+  font-family: 'retroFont';
+  src: url('/ARCADECLASSIC.TTF');
+}
+
+body {
+  color: #737373;
+  overflow-x: hidden;
+}
+
+@layer components {
+
+
+  .input {
+    @apply w-full font-normal text-base focus:outline-none rounded p-4 bg-mygray
+  }
+}
