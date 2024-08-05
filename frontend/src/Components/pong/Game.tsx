@@ -101,11 +101,11 @@ export default function Game({
 		const accessToken = localStorage.getItem("user_token");
 		if (local)
 			socket.current = new WebSocket(
-				`ws://127.0.0.1:8000/ws/localgame/?token=${accessToken}`
+				`${process.env.NEXT_PUBLIC_SOCKET_ENDPOINT}localgame/?token=${accessToken}`
 			);
 		else
 			socket.current = new WebSocket(
-				`ws://127.0.0.1:8000/ws/onlinegame/?token=${accessToken}`
+				`${process.env.NEXT_PUBLIC_SOCKET_ENDPOINT}onlinegame/?token=${accessToken}`
 			);
 		socket.current.onopen = () => {
 			if (!local) {

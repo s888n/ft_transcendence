@@ -211,7 +211,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         <img
           className="w-full h-full object-cover"
           src={
-            "http://127.0.0.1:8000/api/images/" +
+            `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` +
             (searchedUser?.avatar !== ""
               ? searchedUser?.avatar
               : "default.png")

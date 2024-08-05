@@ -66,8 +66,8 @@ const ChatRoom: React.FC<{ user: UserType; selectedChatroom: Chatroom }> = ({ us
       <div className="flex-shrink-0 flex flex-row items-center justify-between px-4 py-3 border-b border-gray-300 bg-red-50">
         <div className="flex flex-row items-center gap-2">
           <div className="relative inline-block rounded-full  h-9 w-9">
-            <Image
-              src={"http://127.0.0.1:8000/api/images/" + (selectedChatroom.friend_avatar)}
+            <img
+              src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + (selectedChatroom.friend_avatar)}
               className="object-cover rounded-full"
               fill
               alt="User"

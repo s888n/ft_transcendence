@@ -55,7 +55,7 @@ export default function Page({ searchParams }: any) {
 	useEffect(() => {
 		const accessToken = localStorage.getItem("user_token");
 		ws.current = new WebSocket(
-			`ws://127.0.0.1:8000/ws/tournament/${id}/?token=${accessToken}`
+			`${process.env.NEXT_PUBLIC_SOCKET_ENDPOINT}tournament/${id}/?token=${accessToken}`
 		);
 		ws.current.onopen = () => {
 			console.log("WebSocket Opened");

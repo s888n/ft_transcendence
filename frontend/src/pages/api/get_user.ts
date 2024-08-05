@@ -18,7 +18,7 @@ export default async function handler(
     }
     // console.log("bearer", cookies, accessToken, requestBody)
     if (req.method === "GET") {
-        const response = await fetch(`http://127.0.0.1:8000/api/get_user?username=${username}`, {
+        const response = await fetch(`${process.env.BACKEND_ENDPOINT}/apiback/get_user?username=${username}`, {
             headers: headers,
         })
 

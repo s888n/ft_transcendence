@@ -18,13 +18,13 @@ from django.contrib import admin
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = (
     [
-        path("admin/", admin.site.urls),
-        path("api/token", MyTokenObtainPairView.as_view(), name="token_obtain_pair"),
-        # path("api/token/refresh", TokenRefreshView.as_view(), name="token_refresh"),
-        path("api/chat/", include(chat_urls)),
-        path("api/game/", include(game_urls)),
-        path("api/tournament/", include(tournament_urls)),
-        path("api/notifications/", include(notifications_urls)),
+        path("apiback/admin/", admin.site.urls),
+        path("apiback/token", MyTokenObtainPairView.as_view(), name="token_obtain_pair"),
+        # path("apiback/token/refresh", TokenRefreshView.as_view(), name="token_refresh"),
+        path("apiback/chat/", include(chat_urls)),
+        path("apiback/game/", include(game_urls)),
+        path("apiback/tournament/", include(tournament_urls)),
+        path("apiback/notifications/", include(notifications_urls)),
     ]
     + users_urls.urlpatterns
 )

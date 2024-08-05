@@ -81,6 +81,8 @@ const RoomsList: React.FC<RoomsListProps> = ({ selectedChatroom, setSelectedChat
         setRefresh(!refresh);
     };
 
+    console.log("herrroooo", process.env.NEXT_PUBLIC_SERVER_ENDPOINT)
+
     return (
         <div className="mt-1">
             <h3 className="text-lg text-myred font-semibold mb-1 px-2">Conversations</h3>
@@ -99,8 +101,8 @@ const RoomsList: React.FC<RoomsListProps> = ({ selectedChatroom, setSelectedChat
                             <div className="flex items-center justify-between w-full">
                                 <div className="flex items-center">
                                     <div className="relative inline-block rounded-full  overflow-hidden h-9 w-9 md:h-11 md:w-11">
-                                        <Image
-                                            src={`http://127.0.0.1:8000/api/images/${room.friend_avatar}`}
+                                        <img
+                                            src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/${room.friend_avatar}`}
                                             className="object-cover rounded-full"
                                             fill
                                             alt={room.friend}

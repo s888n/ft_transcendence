@@ -29,7 +29,7 @@ const MatchOnProfile = ({ match, profileUserName, searchedUser }) => {
             <div className="w-14 h-14 bg-black rounded-full overflow-hidden">
                 <img
                     className="w-full h-full object-cover"
-                    src={"http://127.0.0.1:8000/api/images/" + (searchedUser?.avatar !== "" ? searchedUser.avatar : "default")}
+                    src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + (searchedUser?.avatar !== "" ? searchedUser.avatar : "default")}
                     alt=""
                 />
             </div>
@@ -45,7 +45,7 @@ const MatchOnProfile = ({ match, profileUserName, searchedUser }) => {
             <div className="w-14 h-14 bg-black rounded-full overflow-hidden">
                 <img
                     className="w-full h-full object-cover"
-                    src={"http://127.0.0.1:8000/api/images/" + (searchedUser?.avatar !== "" ? searchedUser.avatar : "default")}
+                    src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + (searchedUser?.avatar !== "" ? searchedUser.avatar : "default")}
                     alt=""
                 />
             </div>

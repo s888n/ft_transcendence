@@ -18,7 +18,7 @@ export default async function handler(
     // console.log("bearer", cookies, accessToken, requestBody)
     if (req.method === "POST") {
 
-        const response = await fetch("http://127.0.0.1:8000/api/send_request", {
+        const response = await fetch(`${process.env.BACKEND_ENDPOINT}/apiback/send_request`, {
             headers: headers,
             method: "POST",
             body: requestBody

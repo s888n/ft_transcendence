@@ -58,7 +58,7 @@ export default function Page() {
         <div className="w-20 h-20 bg-black rounded-full overflow-hidden">
           <img
             className="w-full h-full object-cover"
-            src={"http://127.0.0.1:8000/api/images/" + user?.avatar}
+            src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + user?.avatar}
             alt=""
           />
         </div>

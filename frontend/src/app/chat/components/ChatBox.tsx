@@ -210,8 +210,8 @@ const ChatBox = ({ selectedChatroom }: ChatBoxProps) => {
                     <div className={`flex ${message.sender_id == user?.id ? 'justify-end' : 'justify-start'} mb-2`}>
                       {message.sender_id !== user?.id && (
                         <div className="relative inline-block rounded-full overflow-hidden h-9 w-9 md:h-11 md:w-11">
-                          <Image
-                            src={`http://127.0.0.1:8000/api/images/${message.sender_id == user?.id ? user?.avatar : selectedChatroom.friend_avatar}`}
+                          <img
+                            src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/${message.sender_id == user?.id ? user?.avatar : selectedChatroom.friend_avatar}`}
                             className="object-cover rounded-full"
                             fill
                             alt={message.sender_id === user?.id ? user?.username : selectedChatroom.friend}

@@ -52,7 +52,7 @@ export default function FriendsModal({
                     {friends?.length === 0 && <p className="text-center">No friends online</p>}
                     {friends?.map((friend) => (
                         <li key={friend.username} className="flex items-center justify-between">
-                            <img src={"http://127.0.0.1:8000/api/images/" + friend?.avatar} alt="avatar" className="w-10 h-10 rounded-full" />
+                            <img src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + friend?.avatar} alt="avatar" className="w-10 h-10 rounded-full" />
                             <p>{friend.username}</p>
                             <button className="bg-myred text-white px-4 py-2 rounded-lg"
                                 onClick={(e) => {

@@ -69,6 +69,7 @@ const FriendsList: React.FC<FriendlistProps> = ({ selectedChatroom, setSelectedC
     fetchFriends();
   }, []);
 
+  console.log("herrroooo", process.env.NEXT_PUBLIC_SERVER_ENDPOINT)
 
 
   return (
@@ -83,7 +84,7 @@ const FriendsList: React.FC<FriendlistProps> = ({ selectedChatroom, setSelectedC
             <li key={index} className={`flex items-center justify-between gap-4 rounded-lg p-2 hover:bg-gray-300 transition duration-300 ease-in-out ${selectedChatroom?.friend === friend.username ? 'bg-gray-300' : ''}`} onClick={() => createChatroom(friend)}>
               <div className="flex items-center ">
                 <div className="relative inline-block rounded-full n h-9 w-9 md:h-11 md:w-11">
-                  <Image src={"http://127.0.0.1:8000/api/images/" + friend?.avatar} className="object-cover rounded-full" fill alt={friend.username} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
+                  <img src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + friend?.avatar} className="object-cover rounded-full" fill alt={friend.username} sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" />
                   <div className={`absolute bottom-0 right-0 w-3 h-3 rounded-full ${friend.is_online ? 'bg-green-500' : 'bg-red-500'}`}></div>
                 </div>
                 <div className="whitespace-nowrap overflow-hidden overflow-ellipsis px-3">

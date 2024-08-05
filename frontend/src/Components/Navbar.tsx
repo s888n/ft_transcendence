@@ -62,7 +62,7 @@ const ProfilePopup: FC<any> = ({ setDisplayProfilePopup }) => {
 				<div className="w-12 h-12 bg-black rounded-full overflow-hidden">
 					<img
 						className="w-full h-full object-cover"
-						src={"http://127.0.0.1:8000/api/images/" + user?.avatar}
+						src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + user?.avatar}
 						alt=""
 					/>
 				</div>
@@ -187,7 +187,7 @@ const SearchComponent = () => {
 										<img
 											className="w-full h-full object-cover"
 											src={
-												"http://127.0.0.1:8000/api/images/" +
+												`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` +
 												(user?.avatar !== ""
 													? user.avatar
 													: "default.png")
@@ -289,7 +289,7 @@ const NotificationComponent = () => {
 	useEffect(() => {
 		const accessToken = localStorage.getItem("user_token");
 		const ws = new WebSocket(
-			`ws://127.0.0.1:8000/ws/notifications/?token=${accessToken}`
+			`${process.env.NEXT_PUBLIC_SOCKET_ENDPOINT}notifications/?token=${accessToken}`
 		);
 		ws.onopen = () => {
 			// console.log("Connected to websocket");
@@ -427,7 +427,7 @@ const Navbar = () => {
 									<img
 										className="w-full h-full object-cover popupdisplayer"
 										src={
-											"http://127.0.0.1:8000/api/images/" +
+											`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` +
 											user?.avatar
 										}
 										alt=""

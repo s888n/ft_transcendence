@@ -18,7 +18,7 @@ const get42Token = async () => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const code = urlParams.get('code')
-    return axios.get(`http://127.0.0.1:3000/api/get_42_token?code=${code}`)
+    return axios.get(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/get_42_token?code=${code}`)
         .then((res: any) => {
             return res.data;
         })

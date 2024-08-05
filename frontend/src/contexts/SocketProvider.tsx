@@ -23,7 +23,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
 
     useEffect(() => {
         const token = localStorage.getItem('user_token');
-        const socket = new WebSocket(`ws://127.0.0.1:8000/ws/chat/private/?token=${token}`);
+        const socket = new WebSocket(`${process.env.NEXT_PUBLIC_SOCKET_ENDPOINT}chat/private/?token=${token}`);
 
         socket.onopen = () => {
             console.log('WebSocket connection opened');

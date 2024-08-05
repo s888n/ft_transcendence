@@ -33,7 +33,7 @@ export default function Page() {
 				player2Name={user?.username || "Player"}
 				player1Avatar={"/play/icons/practice.png"}
 				player2Avatar={
-					"http://127.0.0.1:8000/api/images/" + user?.avatar
+					`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + user?.avatar
 				}
 			/>
 			<div className="relative w-full h-1/2  rounded  p-4">

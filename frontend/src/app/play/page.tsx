@@ -19,7 +19,7 @@ const GameModeCard = ({ mode, description,source , handleClick }: GameModeCardPr
         hover:border-myred  transition duration-300 ease-in-out cursor-pointer"
         onClick={handleClick}>
             <h3 className="text-2xl font-bold text-center">{mode}</h3>
-            <Image src={source} alt={mode} width={200} height={200} className="mt-4" priority={true}/>
+            <img src={source} alt={mode} width={200} height={200} className="mt-4" priority={true}/>
             <p
                 className="text-center mt-4"
             >{description}</p>
@@ -39,7 +39,7 @@ export default function Page() {
                 title='Customize Your Game'
                 >
                 <Link href="/play/customize">
-                    <Image src='/play/icons/brush.png' alt='customize' width={100}  height={100} priority={true}/>
+                    <img src='/play/icons/brush.png' alt='customize' width={100}  height={100} priority={true}/>
                 </Link>
             </div>
             <div className="container mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-2 gap-8">

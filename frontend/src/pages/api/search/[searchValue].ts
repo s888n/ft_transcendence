@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     if (req.method === "GET") {
-        const response = await fetch(`http://127.0.0.1:8000/api/search/${searchValue}`, {
+        const response = await fetch(`${process.env.BACKEND_ENDPOINT}/apiback/search/${searchValue}`, {
             headers: headers,
         })
 

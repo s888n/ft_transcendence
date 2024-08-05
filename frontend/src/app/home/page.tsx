@@ -305,7 +305,7 @@ const AvatarComponent: FC<PersonalInformationComponentProps> = ({
       const formData = new FormData();
       formData.append("file", e.target.files[0]); // Append file to FormData
 
-      const res = await axios.get("http://127.0.0.1:3000/api/get_token")
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api/get_token`)
       if (res.status !== 200) {
         toast.error("oops error!..")
       }
@@ -313,7 +313,7 @@ const AvatarComponent: FC<PersonalInformationComponentProps> = ({
 
       try {
         // Send image to Next.js server
-        const response = await fetch(`http://127.0.0.1:8000/api/update_avatar`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/update_avatar`, {
           method: "PUT",
           headers: {
             'Authorization': `Bearer ${res.data?.token || ""}`,
@@ -344,7 +344,7 @@ const AvatarComponent: FC<PersonalInformationComponentProps> = ({
       <div className="w-20 h-20 bg-black rounded-full overflow-hidden">
         <img
           className="w-full h-full object-cover"
-          src={"http://127.0.0.1:8000/api/images/" + user?.avatar}
+          src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + user?.avatar}
           alt=""
         />
       </div>

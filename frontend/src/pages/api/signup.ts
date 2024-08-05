@@ -7,7 +7,7 @@ export default async function handler(
     res: NextApiResponse<any>
 ) {
     const requestBody = JSON.stringify(req.body);
-    const response = await fetch("http://127.0.0.1:8000/api/signup", {
+    const response = await fetch(`${process.env.BACKEND_ENDPOINT}/apiback/signup`, {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',

@@ -49,8 +49,8 @@ const Popup: React.FC<{ selectedChatroom: Chatroom, setIsPopupOpen: (isOpen: boo
       <div ref={popupRef} className="absolute top-16 right-4 bg-white rounded-lg shadow-lg p-6 w-60">
         <div className="flex flex-col items-center">
           <div className="relative inline-block rounded-full overflow-hidden h-14 w-14 mb-1">
-            <Image
-              src={`http://127.0.0.1:8000/api/images/${selectedChatroom.friend_avatar}`}
+            <img
+              src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/${selectedChatroom.friend_avatar}`}
               className="object-cover rounded-full"
               fill
               alt="User"

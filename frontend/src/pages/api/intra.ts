@@ -8,7 +8,7 @@ export default async function handler(
 ) {
     // console.log("resssss", req)
     const requestBody = JSON.stringify(req.body);
-    const response = await fetch("http://127.0.0.1:8000/api/intra", {
+    const response = await fetch(`${process.env.BACKEND_ENDPOINT}/apiback/intra`, {
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',

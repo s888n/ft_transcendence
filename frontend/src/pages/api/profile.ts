@@ -18,7 +18,7 @@ export default async function handler(
     }
     // console.log("bearer", cookies, accessToken, requestBody)
     if (req.method === "GET"){
-        const response = await fetch("http://127.0.0.1:8000/api/profile", {
+        const response = await fetch(`${process.env.BACKEND_ENDPOINT}/apiback/profile`, {
             headers: headers,
         })
         
@@ -30,7 +30,7 @@ export default async function handler(
         res.status(response.status).json( response )
     }else if (req.method === "PUT"){
 
-        const response = await fetch("http://127.0.0.1:8000/api/profile", {
+        const response = await fetch(`${process.env.BACKEND_ENDPOINT}/apiback/profile`, {
             headers: headers,
             method: "PUT",
             body: requestBody

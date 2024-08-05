@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 // ------------------------------- Params Global ----------------------- //
 
 const config: AxiosRequestConfig = {
-    baseURL: "http://127.0.0.1:8000/api",
+    baseURL: `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback`,
     headers: {
         'Content-Type': 'application/json',
     },
@@ -13,7 +13,7 @@ const config: AxiosRequestConfig = {
 };
 
 const config2: AxiosRequestConfig = {
-    baseURL: "http://127.0.0.1:3000/api",
+    baseURL: `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/api`,
     headers: {
         'Content-Type': 'application/json',
     },

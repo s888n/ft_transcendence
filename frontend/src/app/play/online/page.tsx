@@ -88,8 +88,8 @@ export default function Page({ searchParams }: any) {
 			<Players
 				player1Name={player1.username}
 				player2Name={player2.username}
-				player1Avatar={`http://127.0.0.1:8000/api/images/${player1.avatar}`}
-				player2Avatar={`http://127.0.0.1:8000/api/images/${player2.avatar}`}
+				player1Avatar={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/${player1.avatar}`}
+				player2Avatar={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/${player2.avatar}`}
 			/>
 
 			<div className="relative w-full h-1/2 rounded p-4 ">

@@ -19,7 +19,7 @@ export default async function handler(
     if (req.method === "PUT"){
         console.log("booody", requestBody)
 
-        const response = await fetch("http://127.0.0.1:8000/api/change_password", {
+        const response = await fetch(`${process.env.BACKEND_ENDPOINT}/apiback/change_password`, {
             headers: headers,
             method: "PUT",
             body: requestBody
