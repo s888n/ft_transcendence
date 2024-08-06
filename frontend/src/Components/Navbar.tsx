@@ -78,7 +78,12 @@ const ProfilePopup: FC<any> = ({ setDisplayProfilePopup }) => {
 			<div className="w-full h-[1px] bg-gray-100"></div>
 			<div className="cursor-pointer p-4 flex items-center gap-4 text-gray-600 hover:bg-mygray">
 				<GiPingPongBat className="w-6 h-6" />
-				<div className="flex flex-col">
+				<div className="flex flex-col"
+					onClick={() => {
+						router.push("/play");
+						setDisplayProfilePopup(false);
+					}}
+				>
 					<span className="truncate font-semibold">Play now</span>
 				</div>
 			</div>
