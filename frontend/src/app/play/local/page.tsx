@@ -26,27 +26,24 @@ const map = [
 export default function Page() {
 	const { user } = useContext(UserContext);
 	const [winner, setWinner] = useState("Player1");
-	const [gameState, setGameState] = useState("waiting"); //waiting, playing, paused, gameover
+	const [gameState, setGameState] = useState(0);
+	const playerImage = `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + user?.avatar;
 	return (
 		<div className="fixed h-full w-full flex flex-col  justify-center items-center p-4">
 			<Players
 				player1Name="Player1"
 				player2Name="Player2"
-				player1Avatar={
-					`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + user?.avatar
-				}
-				player2Avatar={
-					`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + user?.avatar
-				}
+				player1Avatar={playerImage}
+				player2Avatar={playerImage}
 			/>
 			<div className="relative w-full h-1/2  rounded  ">
 				{gameState === "waiting" && <Ready rules={Rules} />}
 				{gameState === "paused" && <Pause />}
 				{gameState === "gameover" && (
 					<Gameover
-						winner={winner}
+						winner={winner === 0 ? "Player1" : "Player2"}
 						winnerImage={
-							`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + user?.avatar
+							playerImage
 						}
 					/>
 				)}
@@ -59,7 +56,7 @@ export default function Page() {
 							mode={"pvp"}
 							local={true}
 							room_id=""
-							nextGame={() => null}
+							setWinner={setWinner}
 							gameState={gameState}
 							setGameState={setGameState}
 						/>

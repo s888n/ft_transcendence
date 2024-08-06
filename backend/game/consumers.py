@@ -91,17 +91,9 @@ class OnlineGameConsumer(AsyncWebsocketConsumer):
             await self.join_game()
 
     async def create_game(self):
-        # print("Creating game")
         self.rooms[self.room] = {
             "players": [self.channel_name],
         }
-        # self.rooms[self.room]["game_manager"] = OnlineGameManager()
-        # await database_sync_to_async(self.rooms[self.room]["game_manager"].create_match)(
-        #     self.room
-        # )
-        # await self.send(text_data=json.dumps({"message": "Waiting for opponent"})
-        # )
-        # self.game_loop_task = asyncio.create_task(self.game_loop())
 
     async def join_game(self):
         # print("Joining game")
@@ -113,7 +105,6 @@ class OnlineGameConsumer(AsyncWebsocketConsumer):
         await database_sync_to_async(self.rooms[self.room]["game_manager"].get_match)(
             self.room
         )
-        # self.game_loop_task = asyncio.create_task(self.game_loop())
         self.rooms[self.room]["game_loop_task"] = asyncio.create_task(self.game_loop())
 
     async def game_loop(self):

@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 const Rules = [
 	"- Player 1: W S A D",
 	"- Player 2: ↑ ↓ ← →",
-	"- Start: Space",
+	"- Start / Next Match: Space",
 	"- Pause: P",
 	"- First to 5 points wins",
 	"- Use the mouse to adjust your view",
@@ -46,7 +46,7 @@ export default function Page({ searchParams }: any) {
 	const [score1, setScore1] = useState(0);
 	const [score2, setScore2] = useState(0);
 	const [gameState, setGameState] = useState("waiting"); //waiting, playing, paused, gameover
-	const [matchResult, setMatchResult] = useState<any>(null);
+	const [winner, setWinner] = useState("");
 	const ballRef = useRef<THREE.Mesh>() as React.MutableRefObject<THREE.Mesh>;
 	const paddle1Ref =
 		useRef<THREE.Mesh>() as React.MutableRefObject<THREE.Mesh>;
@@ -60,7 +60,7 @@ export default function Page({ searchParams }: any) {
 		ws.current.onopen = () => {
 			console.log("WebSocket Opened");
 		};
-		ws.current.onmessage = (event) => {
+		ws.current.onmessage = (event:any) => {
 			const data = JSON.parse(event.data);
 			if (data.type === "tournament_error") router.push("/play");
 			if (data.type === "tournament_info") setDetails(data.info);
@@ -86,7 +86,7 @@ export default function Page({ searchParams }: any) {
 		if (data.score2 !== score2) setScore2(data.score.player2);
 	}
 	function update(data: any) {
-		// console.log(data);
+		console.log(data);
 		if (data.state === "waiting") {
 			gameState !== "waiting" && setGameState("waiting");
 		}
@@ -98,8 +98,9 @@ export default function Page({ searchParams }: any) {
 			updateGame(data);
 		}
 		if (data.state === "gameover") {
+			// console.log(data);
 			gameState !== "gameover" && setGameState("gameover");
-			// handleGameover(data);
+			setWinner(data.winner);
 		}
 	}
 	return (
@@ -117,8 +118,8 @@ export default function Page({ searchParams }: any) {
 			<div className="relative rounded-lg shadow-lg p-6 w-full h-1/2">
 				{gameState === "waiting" && <Ready rules={Rules} />}
 				{gameState === "paused" && <Pause />}
-				{matchResult && (
-					<Gameover winner={matchResult.winner} winnerImage={""} />
+				{gameState === "gameover" && (
+					<Gameover winner={winner} winnerImage={""} />
 				)}
 				<Canvas
 					className="rounded-lg"

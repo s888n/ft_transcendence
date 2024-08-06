@@ -20,11 +20,12 @@ export default function Gameover({
 				className="text-4xl mt-4 w-full text-center flex flex-col items-center
 			 text-green-600"
 			>
+				{winnerImage && 
 				<img
 					src={winnerImage}
 					alt={`${winner}'s avatar`}
 					className="w-60 h-60"
-				/>
+				/>}
 				<span className="text-4xl">{winner}</span>
 			</div>
 		</div>

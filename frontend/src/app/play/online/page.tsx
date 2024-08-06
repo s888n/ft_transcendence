@@ -68,6 +68,8 @@ export default function Page({ searchParams }: any) {
 	const [isFinished, setIsFinished] = useState(false);
 	const [winner, setWinner] = useState("");
 	const [gameState, setGameState] = useState("waiting" as string);
+	const player1Image = `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/${player1.avatar}`;	
+	const player2Image = `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/${player2.avatar}`;
 
 	useEffect(() => {
 		setGameId(id);
@@ -88,19 +90,19 @@ export default function Page({ searchParams }: any) {
 			<Players
 				player1Name={player1.username}
 				player2Name={player2.username}
-				player1Avatar={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/${player1.avatar}`}
-				player2Avatar={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/${player2.avatar}`}
+				player1Avatar={player1Image}
+				player2Avatar={player2Image}
 			/>
 
 			<div className="relative w-full h-1/2 rounded p-4 ">
-				{isFinished && <Gameover winner={winner} winnerImage={""} />}
+				{isFinished && <Gameover winner={winner} winnerImage={winner === player1.username ?  player1Image : player2Image} />}
 				{!isFinished && (
 					<>
 						{gameState === "waiting" && <Ready rules={Rules} />}
 						{gameState === "paused" && <OnlinePause />}
 						{gameState === "disconnected" && <DisconnectScreen />}
 						{gameState === "gameover" && (
-							<Gameover winner={winner} winnerImage={""} />
+							<Gameover winner={winner} winnerImage={winner === player1.username ?  player1Image : player2Image} />
 						)}
 						<Canvas
 							camera={{ position: [-0.5, 8, 0], fov: 60 }}
@@ -111,7 +113,7 @@ export default function Page({ searchParams }: any) {
 									mode={"online"}
 									local={false}
 									room_id={gameId}
-									nextGame={() => {}}
+									setWinner={setWinner}
 									gameState={gameState}
 									setGameState={setGameState}
 								/>

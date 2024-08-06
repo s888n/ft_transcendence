@@ -26,23 +26,24 @@ const map = [
 export default function Page() {
 	const { user } = useContext(UserContext);
 	const [gameState, setGameState] = useState("waiting");
+	const [ winner, setWinner ] = useState(0);
+	const playerImage = `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + user?.avatar;
+	const benderImage = "/play/bender.png";
 	return (
 		<div className="fixed h-full w-full flex flex-col  justify-center items-center p-4">
 			<Players
 				player1Name={"Bender"}
 				player2Name={user?.username || "Player"}
-				player1Avatar={"/play/icons/practice.png"}
-				player2Avatar={
-					`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + user?.avatar
-				}
+				player1Avatar={benderImage}
+				player2Avatar={playerImage}
 			/>
 			<div className="relative w-full h-1/2  rounded  p-4">
 				{gameState === "waiting" && <Ready rules={Rules} />}
 				{gameState === "paused" && <Pause />}
 				{gameState === "gameover" && (
 					<Gameover
-						winner={"Bot"}
-						winnerImage={"/play/icons/practice.png"}
+						winner={winner === 1 ? user?.username : "Bender"}
+						winnerImage= {winner === 1 ? playerImage : benderImage}
 					/>
 				)}
 				<Canvas
@@ -54,7 +55,7 @@ export default function Page() {
 							mode={"practice"}
 							local={true}
 							room_id=""
-							nextGame={() => null}
+							setWinner={setWinner}
 							gameState={gameState}
 							setGameState={setGameState}
 						/>

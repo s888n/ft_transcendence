@@ -16,26 +16,19 @@ export default function Game({
 	mode,
 	local,
 	room_id,
-	nextGame,
+	setWinner,
 	gameState,
 	setGameState,
 }: {
 	mode: string;
 	local: boolean;
 	room_id: string;
-	nextGame: (x: any) => void;
+	setWinner: (winner: any) => void;
 	gameState: string;
 	setGameState: (state: string) => void;
 }): JSX.Element {
 	const [score1, setScore1] = useState(0);
 	const [score2, setScore2] = useState(0);
-	const [gameover, setGameover] = useState(false);
-	const [gameoverData, setGameoverData] = useState({
-		winner: "",
-		loser: "",
-		score1: 0,
-		score2: 0,
-	});
 	const socket = useRef<WebSocket>(null) as React.MutableRefObject<WebSocket>;
 	const ballRef = useRef<THREE.Mesh>() as React.MutableRefObject<THREE.Mesh>;
 	const paddle1Ref =
@@ -55,28 +48,13 @@ export default function Game({
 	}
 
 	function handleGameover(data: any) {
-		if (mode === "tournament") {
-			nextGame(data);
-			return;
-		}
-		setGameoverData({
-			winner: data.winner,
-			loser: data.loser,
-			score1: data.score.player1,
-			score2: data.score.player2,
-		});
+		console.log(data);
+		setWinner(data.winner);
 		setScore1(data.score.player1);
 		setScore2(data.score.player2);
-		setGameover(true);
 	}
-	function updateGameState(state: string) {
-		setGameState(state);
-		// if (state === "gameover") {
-		// 	setTimeout(() => {
-		// 		nextGame();
-		// 	}, 5000);
-		// }
-	}
+	const updateGameState = (state: string)  => setGameState(state);
+
 	function update(data: any) {
 		// console.log(data);
 		if (data.state === "waiting") {

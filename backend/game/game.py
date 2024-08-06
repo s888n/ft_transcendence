@@ -146,7 +146,17 @@ class OnlineGameManager:
         return self.game.get_state()
 
     def game_result(self):
-        return self.game.gameover_state()
+        result =  self.game.gameover_state()
+        return {
+            "type": "game_state",
+            "state": "gameover",
+            "winner": self.player1 if result["winner"] == 0 else self.player2,
+            "loser": self.player1 if result["loser"] == 0 else self.player2,
+            "score": {
+                "player1": self.player1_score(),
+                "player2": self.player2_score(),
+            },
+        }
 
     def winner(self):
         return self.game.winner()
