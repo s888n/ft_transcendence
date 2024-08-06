@@ -18,13 +18,13 @@ export default function Arcade(props) {
 	);
 	const { actions } = useAnimations(animations, group);
 	useEffect(() => {
-		actions["Ball"].play();
-		actions["Right"].play();
-		actions["Left"].play();
+		actions["Ball"]?.play();
+		actions["Right"]?.play();
+		actions["Left"]?.play();
 		return () => {
-			actions["Ball"].stop();
-			actions["Right"].stop();
-			actions["Left"].stop();
+			actions["Ball"]?.stop();
+			actions["Right"]?.stop();
+			actions["Left"]?.stop();
 		};
 	}, [actions]);
 
