@@ -194,9 +194,6 @@ export default function Page() {
 							>
 								Login
 							</button>
-							<span className="text-center text-sm">
-								Forgot your password?
-							</span>
 						</form>
 					</div>
 				)}

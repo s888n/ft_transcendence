@@ -96,8 +96,8 @@ export default function Page() {
             >
               <div className="absolute inset-0 rounded-md bg-black opacity-10"></div>
               <div className="p-4 flex items-center justify-center gap-2 flex-col text-white absolute inset-0">
-                <h1 className="text-5xl font-bold bg-transparent">
-                  Welcome to Pongplay
+                <h1 className="text-5xl font-bold bg-transparent text-myred">
+                  Welcome to Pong3D
                 </h1>
                 <p>The best way to play ping pong online with friends</p>
               </div>
