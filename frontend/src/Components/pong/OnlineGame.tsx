@@ -12,7 +12,7 @@ import Borders from "./Borders";
 import OnlineEventHandler from "./OnlineEventHandler";
 import Score from "./Score";
 
-export default function Game({
+export default function OnlineGame({
 	mode,
 	local,
 	room_id,
