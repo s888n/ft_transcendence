@@ -4,7 +4,9 @@ import json
 import asyncio
 from .game import LocalGameManager, OnlineGameManager
 from .models import Match, LocalMatch
-
+from users.models import User
+from .serializers import LocalMatchSerializer
+import json
 
 class LocalGameConsumer(AsyncWebsocketConsumer):
     def __init__(self, *args, **kwargs):
@@ -24,6 +26,19 @@ class LocalGameConsumer(AsyncWebsocketConsumer):
         text_data_json = json.loads(text_data)
         self.game_manager.receive(text_data_json)
 
+    def save_match(self, result):
+        LocalMatch.objects.create(
+            creator=User.objects.get(username=self.user.username),
+            player1=result["player1"],
+            player2=result["player2"],
+            player1_score=result["score"]["player1"],
+            player2_score=result["score"]["player2"],
+            mode=result["mode"],
+            winner=result["winner"],
+            finished=True,
+        )
+        print("Match saved")
+
     async def game_loop(self):
         while True:
             if not self.game_manager.paused:
@@ -35,16 +50,7 @@ class LocalGameConsumer(AsyncWebsocketConsumer):
                 break
         result = self.game_manager.game_result()
         await self.send(text_data=json.dumps(result))
-        match = LocalMatch.objects.create(
-            creator=self.user,
-            player1=result["player1"],
-            player2=result["player2"],
-            player1_score=result["score"]["player1"],
-            player2_score=result["score"]["player2"],
-            mode=result["mode"],
-            winner=result["winner"],
-            finished=True,
-        )
+        await database_sync_to_async(self.save_match)(result)
         await self.close()
 
 

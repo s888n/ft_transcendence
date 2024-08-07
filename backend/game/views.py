@@ -42,9 +42,6 @@ def get_matches(request, username):
     serializer = MatchSerializer(matches, many=True)
     return Response(serializer.data)
 
-
-# return all finished matches (local and online,tournament matches) sorted by date
-# return player1 , player2 , winner , mode , created_at
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def get_all_matches(request):
@@ -65,37 +62,44 @@ def get_all_matches(request):
         for match in tournament["matches"]:
             if match["finished"]:
                 all_matches.append(
+                    {
+                        "player1": match["player1"],
+                        "player2": match["player2"],
+                        "score1": match["score1"],
+                        "score2": match["score2"],
+                        "winner": match["winner"],
+                        "mode": "tournament",
+                        # "created_at": tournament["created"],
+                        "finished": match["finished"],
+                    }
+                )
+    for match in local_matches_data:
+        if match["finished"]:
+            all_matches.append(
                 {
                     "player1": match["player1"],
                     "player2": match["player2"],
+                    "score1": match["player1_score"],
+                    "score2": match["player2_score"],
                     "winner": match["winner"],
-                    "mode": "tournament",
-                    "created_at": tournament["created"],
+                    "mode": match["mode"],
+                    # "created_at": match["created_at"],
                     "finished": match["finished"],
                 }
             )
-    for match in local_matches_data:
-        all_matches.append(
-            {
-                "player1": match["player1"],
-                "player2": match["player2"],
-                "winner": match["winner"],
-                "mode": "local",
-                "created_at": match["created_at"],
-                "finished": match["finished"],
-            }
-        )
     for match in online_matches_data:
-        all_matches.append(
-            {
-                "player1": match["player1"],
-                "player2": match["player2"],
-                "winner": match["winner"],
-                "mode": "online",
-                "created_at": match["created_at"],
-                "finished": match["finished"],
-            }
-        )
-    print(all_matches)
+        if match["finished"]:
+            all_matches.append(
+                {
+                    "player1": match["player1"]["username"],
+                    "player2": match["player2"]["username"],
+                    "score1": match["player1_score"],
+                    "score2": match["player2_score"],
+                    "winner": match["winner"]["username"],
+                    "mode": "online",
+                    # "created_at": match["created_at"],
+                    "finished": match["finished"],
+                }
+            )
     return Response(all_matches)
 
