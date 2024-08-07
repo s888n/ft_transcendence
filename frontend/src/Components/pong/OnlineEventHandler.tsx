@@ -4,11 +4,10 @@ import { useFrame } from "@react-three/fiber";
 import React, {useContext,useEffect} from "react";
 import { useKeyboardControls } from "@react-three/drei";
 import UserContext from "@/contexts/UserContext";
-interface SocketProps {
+interface OnlineEventHandlerProps {
 	socket: React.MutableRefObject<WebSocket>;
 }
-
-export default function OnlineEventHandler({ socket }: SocketProps) {
+export default function OnlineEventHandler({ socket }: OnlineEventHandlerProps) {
 	const [ subscribeKeys, getKeys ] = useKeyboardControls()
 	const {user} = useContext(UserContext);
 

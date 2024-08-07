@@ -4,7 +4,7 @@ import { useFrame } from "@react-three/fiber";
 import React, { useContext, useEffect } from "react";
 import { useKeyboardControls } from "@react-three/drei";
 import UserContext from "@/contexts/UserContext";
-interface SocketProps {
+interface LocalEventHandlerProps {
 	socket: React.MutableRefObject<WebSocket>;
 	type: string;
 	player1: string;
@@ -18,7 +18,7 @@ export default function LocalEventHandler({
 	player1,
 	player2,
 	difficulty,
-}: SocketProps) {
+}: LocalEventHandlerProps) {
 	const [subscribeKeys, getKeys] = useKeyboardControls();
 
 	useEffect(() => {
