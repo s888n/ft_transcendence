@@ -11,11 +11,11 @@ class TournamentMatch(models.Model):
     round = models.IntegerField(default=1)
     finished = models.BooleanField(default=False)
     tournament = models.ForeignKey(
-        "Tourmanent", on_delete=models.CASCADE, related_name="matches"
+        "Tournament", on_delete=models.CASCADE, related_name="matches"
     )
 
 
-class Tourmanent(models.Model):
+class Tournament(models.Model):
 
     class PlayerCount(models.TextChoices):
         FOUR = "4"

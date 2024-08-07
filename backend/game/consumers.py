@@ -43,6 +43,7 @@ class LocalGameConsumer(AsyncWebsocketConsumer):
             player2_score=result["score"]["player2"],
             mode=result["mode"],
             winner=result["winner"],
+            finished=True,
         )
         await self.close()
 

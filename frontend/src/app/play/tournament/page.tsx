@@ -1,5 +1,8 @@
 "use client";
-
+import { useFrame } from "@react-three/fiber";
+import React, {useContext} from "react";
+import { useKeyboardControls } from "@react-three/drei";
+import UserContext from "@/contexts/UserContext";
 import Ball from "@/Components/pong/Ball";
 import Paddle from "@/Components/pong/Paddle";
 import Borders from "@/Components/pong/Borders";
@@ -11,7 +14,6 @@ import Env from "@/Components/pong/Env";
 import Score from "@/Components/pong/Score";
 import DashedLine from "@/Components/pong/DashedLine";
 import { Stage } from "@react-three/drei";
-import Socket from "@/Components/pong/Socket";
 import { KeyboardControls } from "@react-three/drei";
 import Ready from "@/Components/pong/Ready";
 import Pause from "@/Components/pong/Pause";
@@ -62,6 +64,7 @@ export default function Page({ searchParams }: any) {
 		};
 		ws.current.onmessage = (event:any) => {
 			const data = JSON.parse(event.data);
+			console.log(data);
 			if (data.type === "tournament_error") router.push("/play");
 			if (data.type === "tournament_info") setDetails(data.info);
 			if (data.type === "tournament_match") setCurrMatch(data.match);
@@ -253,4 +256,73 @@ function CurrentMatch({ match }: { match: any }) {
 			</span>
 		</div>
 	);
+}
+interface SocketProps {
+	socket: React.MutableRefObject<WebSocket>;
+	type: string;
+}
+
+function Socket({ socket, type}: SocketProps) {
+	const [ subscribeKeys, getKeys ] = useKeyboardControls()
+	useEffect(() => {
+		console.log(socket.current.readyState === WebSocket.OPEN ? "open" : "closed");
+		const handleKeyDown = (e: KeyboardEvent) => {
+
+				if (e.code === "Space") {
+					socket.current.send(
+						JSON.stringify({
+							event: "START",
+							type: "tournament",
+						})
+					);
+				} else if (e.code === "KeyP") {
+					socket.current.send(
+						JSON.stringify({
+							event: "PAUSE",
+						})
+					);
+				}
+		};
+		window.addEventListener("keydown", handleKeyDown);
+		return () => {
+			window.removeEventListener("keydown", handleKeyDown);
+		};
+	}, [socket.current]);
+
+	useFrame((state, delta) => {
+		const { moveUP1 , moveUP2 ,moveDOWN1 ,moveDOWN2} = getKeys();
+		moveUP1 &&
+			socket.current.send(
+				JSON.stringify({
+					event: "MOVE",
+					direction: 1,
+					playerID: 1,
+				})
+			);
+		moveDOWN1 &&
+			socket.current.send(
+				JSON.stringify({
+					event: "MOVE",
+					direction: -1,
+					playerID: 1,
+				})
+			);
+		moveUP2 &&
+			socket.current.send(
+				JSON.stringify({
+					event: "MOVE",
+					direction: 1,
+					playerID: 2,
+				})
+			);
+		moveDOWN2 &&
+			socket.current.send(
+				JSON.stringify({
+					event: "MOVE",
+					direction: -1,
+					playerID: 2,
+				})
+			);
+	});
+	return <></>;
 }

@@ -1,4 +1,4 @@
-from .models import TournamentMatch, Tourmanent
+from .models import TournamentMatch, Tournament
 from rest_framework import serializers
 
 
@@ -22,7 +22,7 @@ class TournamentSerializer(serializers.ModelSerializer):
     matches = TournamentMatchSerializer(many=True, read_only=True, source="get_matches")
 
     class Meta:
-        model = Tourmanent
+        model = Tournament
         fields = (
             "id",
             "name",

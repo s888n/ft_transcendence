@@ -2,7 +2,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 from channels.db import database_sync_to_async
 import json
 import asyncio
-from .models import Tourmanent, TournamentMatch
+from .models import Tournament, TournamentMatch
 from .serializers import TournamentSerializer, TournamentMatchSerializer
 from game.game import Ball, Paddle
 from asgiref.sync import sync_to_async
@@ -48,10 +48,6 @@ class TournamentConsumer(AsyncWebsocketConsumer):
             await self.close()
             return
         await self.send_tournament_info()
-        # if self.tournament["finished"]:
-        #     await self.send_tournament_results()
-        #     await self.close()
-        #     return
         self.tournament_task = asyncio.create_task(self.tournament_manager())
 
     async def disconnect(self, close_code):
@@ -60,6 +56,8 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         data = json.loads(text_data)
+        print("received data: ", data)
+        print ("game manager: ", self.game_manager)
         if self.game_manager:
             self.game_manager.receive(data)
 
@@ -97,10 +95,10 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         tournament = None
         try:
             tournament = TournamentSerializer(
-                Tourmanent.objects.get(id=tournament_id)
+                Tournament.objects.get(id=tournament_id)
             ).data
             return tournament
-        except Tourmanent.DoesNotExist:
+        except Tournament.DoesNotExist:
             return None
 
     async def send_tournament_results(self):
@@ -145,10 +143,10 @@ class TournamentConsumer(AsyncWebsocketConsumer):
                 match.save()
                 return
         else:
-            tournmament = Tourmanent.objects.get(id=self.tournament_id)
-            tournmament.finished = True
-            tournmament.winner = result["winner"]
-            tournmament.save()
+            tournament = Tournament.objects.get(id=self.tournament_id)
+            tournament.finished = True
+            tournament.winner = result["winner"]
+            tournament.save()
             return
 
     async def tournament_manager(self):
@@ -161,7 +159,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
                 return
 
             await self.send_current_match(match)
-            self.game_manager = TournmanentMatchManager(
+            self.game_manager = TournamentMatchManager(
                 match["id"],
                 match["player1"],
                 match["player2"],
@@ -191,7 +189,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         await self.close()
 
 
-class TournmanentMatchManager:
+class TournamentMatchManager:
     def __init__(
         self, match_id, player1, player2, score1, score2, winner, finished, round
     ):
@@ -208,6 +206,7 @@ class TournmanentMatchManager:
         print("Match manager created")
 
     def receive(self, message):
+        print("received message: ", message)
         event = message.get("event")
 
         if event == "START":

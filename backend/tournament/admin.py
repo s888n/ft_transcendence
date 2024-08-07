@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import TournamentMatch, Tourmanent
+from .models import TournamentMatch, Tournament
 
 admin.site.register(TournamentMatch)
-admin.site.register(Tourmanent)
+admin.site.register(Tournament)

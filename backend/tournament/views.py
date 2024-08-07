@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404
-from .models import TournamentMatch, Tourmanent
+from .models import TournamentMatch, Tournament
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.decorators import (
@@ -34,7 +34,7 @@ def get_tournaments(request):
         return Response(
             {"error": "who the fuck are you?"}, status=status.HTTP_401_UNAUTHORIZED
         )
-    tournaments = Tourmanent.objects.filter(creator=user)
+    tournaments = Tournament.objects.filter(creator=user)
     serializer = TournamentSerializer(tournaments, many=True)
     return Response(serializer.data)
 
@@ -64,7 +64,7 @@ def create_tournament(request):
             )
 
     # Shuffle the players names
-    tournament = Tourmanent.objects.create(
+    tournament = Tournament.objects.create(
         name=tournament_name,
         creator=user,
         rounds=rounds_count,
@@ -98,7 +98,7 @@ def create_tournament(request):
 @permission_classes([IsAuthenticated])
 def get_tournament(request, pk):
     user = request.user
-    tournament = Tourmanent.objects.filter(creator=user, id=pk).first()
+    tournament = Tournament.objects.filter(creator=user, id=pk).first()
     if not tournament:
         return Response(
             {"error": "Tournament not found"}, status=status.HTTP_404_NOT_FOUND
@@ -110,7 +110,7 @@ def get_tournament(request, pk):
 @api_view(["POST"])
 @permission_classes([IsAuthenticated])
 def next_match(request, pk):
-    tournament = get_object_or_404(Tourmanent, id=pk)
+    tournament = get_object_or_404(Tournament, id=pk)
     user = request.user
     # print(tournament.creator, user)
     if tournament.creator != user:

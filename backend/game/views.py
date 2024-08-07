@@ -4,14 +4,14 @@ from rest_framework.decorators import (
     permission_classes,
     authentication_classes,
 )
+from django.db.models import Q
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .models import Match
-from rest_framework.permissions import IsAuthenticated
 
-# Create your views here.
-from rest_framework.permissions import IsAuthenticated
-from .serializers import MatchSerializer
-
+from .models import Match , LocalMatch
+from .serializers import MatchSerializer , LocalMatchSerializer
+from tournament.models import Tournament
+from tournament.serializers import TournamentSerializer
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
@@ -29,24 +29,9 @@ def match_details(request, pk):
         return Response({"error": "Match not found"}, status=404)
 
 
-# @api_view(["GET"])
-# @permission_classes([IsAuthenticated])
-# def get_matches(request):
-#     user = request.user
-#     if not user or not user.is_authenticated:
-#         return Response(
-#             {"error ": "You are not allowed to see this match"},
-#             status=status.HTTP_401_UNAUTHORIZED,
-#         )
-#     matches = Match.objects.filter(player1=user) | Match.objects.filter(player2=user)
-#     # if not matches:
-#     #     return Response({"error": "No matches found"}, status=404)
-#     serializer = MatchSerializer(matches, many=True)
-#     return Response(serializer.data)
-
 
 @api_view(["GET"])
-# @permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 def get_matches(request, username):
     matches = Match.objects.filter(player1__username=username
     ) | Match.objects.filter(
@@ -56,3 +41,61 @@ def get_matches(request, username):
     #     return Response({"message": "No matches found"})
     serializer = MatchSerializer(matches, many=True)
     return Response(serializer.data)
+
+
+# return all finished matches (local and online,tournament matches) sorted by date
+# return player1 , player2 , winner , mode , created_at
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_all_matches(request):
+    user = request.user
+    if not user or not user.is_authenticated:
+        return Response(
+            {"error ": "You are not allowed to see this match"},
+            status=status.HTTP_401_UNAUTHORIZED,
+        )
+    online_matches = Match.objects.filter(Q(player1=user) | Q(player2=user))
+    online_matches_data = MatchSerializer(online_matches, many=True).data
+    local_matches = LocalMatch.objects.filter(creator=user, finished=True)
+    local_matches_data = LocalMatchSerializer(local_matches, many=True).data
+    tournaments = Tournament.objects.filter(creator=user)
+    tournaments_data= TournamentSerializer(tournaments, many=True).data
+    all_matches = []
+    for tournament in tournaments_data:
+        for match in tournament["matches"]:
+            if match["finished"]:
+                all_matches.append(
+                {
+                    "player1": match["player1"],
+                    "player2": match["player2"],
+                    "winner": match["winner"],
+                    "mode": "tournament",
+                    "created_at": tournament["created"],
+                    "finished": match["finished"],
+                }
+            )
+    for match in local_matches_data:
+        all_matches.append(
+            {
+                "player1": match["player1"],
+                "player2": match["player2"],
+                "winner": match["winner"],
+                "mode": "local",
+                "created_at": match["created_at"],
+                "finished": match["finished"],
+            }
+        )
+    for match in online_matches_data:
+        all_matches.append(
+            {
+                "player1": match["player1"],
+                "player2": match["player2"],
+                "winner": match["winner"],
+                "mode": "online",
+                "created_at": match["created_at"],
+                "finished": match["finished"],
+            }
+        )
+    print(all_matches)
+    return Response(all_matches)
+

@@ -9,13 +9,18 @@ import {
 import { Canvas } from "@react-three/fiber";
 import Arcade from "@/Components/Arcade";
 import Greeting from "@/Components/Greeting";
-import { Suspense, useContext } from "react";
+import { Suspense, use, useContext } from "react";
 import UserContext from "@/contexts/UserContext";
 import Navbar from "@/Components/Navbar";
 import Loading from "@/Components/pong/Loading";
+import { getAPI } from "@/api/APIServices";
+import { useEffect, useState } from "react";
 export default function Page() {
 	const { user } = useContext(UserContext);
-
+	const [matches, setMatches] = useState(null);
+	useEffect(() => {
+			getAPI("game/all_matches").then((res:any) => {console.log(res);})
+		}, []);
 	return (
 		<>
 			<Navbar />
