@@ -20,3 +20,14 @@ class Match(models.Model):
     winner = models.ForeignKey(
         User, on_delete=models.SET_NULL, blank=True, null=True, related_name="winner"
     )
+
+class LocalMatch(models.Model):
+    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    create_at = models.DateTimeField(auto_now_add=True)
+    player1 = models.CharField(max_length=20)
+    player2 = models.CharField(max_length=20)
+    player1_score = models.IntegerField(default=0)
+    player2_score = models.IntegerField(default=0)
+    mode = models.CharField(max_length=20, null=True)
+    finished = models.BooleanField(default=False)
+    winner = models.CharField(max_length=20, blank=True, null=True)

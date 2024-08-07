@@ -8,21 +8,40 @@ from asgiref.sync import sync_to_async
 from channels.db import database_sync_to_async
 import asyncio
 from users.models import User
+import pandas as pd
+import os.path
+import numpy as np
+from random import randint
+from sklearn.utils import shuffle
+from sklearn.preprocessing import MinMaxScaler
+import tensorflow as tf
+from tensorflow import keras
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Activation, Dense
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.metrics import categorical_crossentropy
 
+DIFFICULTY = {"easy": 1, "medium": 0.3, "hard": 0.1}
 
 class LocalGameManager:
     def __init__(self):
         self.game = GameEngine(0, 0)
         self.paused = False
+        self.player1 = None
+        self.player2 = None
+        self.difficulty = "easy"
 
     def receive(self, message):
         event = message.get("event")
         mode = message.get("type")
-        # print("event", message)
+        print("event", message)
 
         if event == "START":
+            self.player1 = message.get("player1")
+            self.player2 = message.get("player2")
+            self.difficulty = message.get("difficulty")
             if self.game.state == "waiting":
-                self.game.start(mode)
+                self.game.start(mode,self.difficulty)
 
         if event == "MOVE":
             player_id = message.get("playerID")
@@ -43,7 +62,18 @@ class LocalGameManager:
         return self.game.get_state()
 
     def game_result(self):
-        return self.game.gameover_state()
+        return {
+            "type": "game_state",
+            "state": "gameover",
+            "player1": self.player1,
+            "player2": self.player2,
+            "winner": self.player1 if self.game.winner_id == 0 else self.player2,
+            "score": {
+                "player1": self.game.score[0],
+                "player2": self.game.score[1],
+            },
+            "mode": self.game.mode,
+        }
 
     def winner(self):
         return self.game.winner()
@@ -275,49 +305,55 @@ class AI:
         self.ball_dz = b_dz
         self.paddle1_x = p1x
         self.paddle2_x = p2x
-        self.last_update = time.time()
         self.game_width = width
         self.game_height = height
         self.paddle_width = paddle_width
         self.paddle_speed = paddle_speed
         self.half_width = half_width
+        self.data = shuffle(pd.read_csv("game/data.csv"))
+        self.scaler = MinMaxScaler()
+        self.X = self.data.drop("paddle_x", axis=1)
+        self.y = self.data["paddle_x"]
+        self.X = self.scaler.fit_transform(self.X)
+        self.model = self.create_model()
+        self.possible_paddle_x = [-2.4, -1.6, -0.8, 0, 0.8, 1.6, 2.4]
+        self.future_x = 0
+    
+    def create_model(self):
+        if  os.path.exists("game/pong_ai_model.keras"):
+            model = keras.models.load_model("game/pong_ai_model.keras")
+            return model
+        model = Sequential([
+            Dense(units=16, input_shape=(4,), activation="relu"),
+            Dense(units=32, activation="relu"),
+            Dense(units=1, activation="linear"),
+        ])
+        model.summary()
+        model.compile(optimizer=Adam(learning_rate=0.0001), loss='mean_squared_error' , metrics=['accuracy'])
+        model.fit(x=self.X, y=self.y, validation_split=0.1,batch_size=10,epochs=300, shuffle=True, verbose=1)
+        model.save("game/pong_ai_model.keras")
+        return model
 
-    # minmax algorithm with alpha-beta pruning
+    def predict(self):
+        ball_data = np.array([self.ball_x, self.ball_z, self.ball_dx,self.ball_dz]).reshape(1, -1)
+        ball_data = self.scaler.transform(ball_data)
+        return self.model.predict(ball_data)[0][0]
 
     def calculate_ai_move(self):
-        # if self.ball_z > 0:
-        #     return 0
-        # Initialize alpha and beta to negative and positive infinity
-        alpha = float("-inf")
-        beta = float("inf")
-        # Calculate the scores for moving left, staying still, and moving right
-        scores = [self.calculate_score(move, alpha, beta) for move in [-1, 0, 1]]
-        # Choose the move with the highest score
-        return [-1, 0, 1][scores.index(max(scores))]
-
-    def calculate_score(self, move, alpha, beta):
-        # Apply the move to get the new paddle position
-        new_paddle_x = self.paddle2_x + move * self.paddle_speed
-        # Calculate the score based on how close the new paddle position is to the ball
-        score = -abs(self.ball_x - new_paddle_x)
-        # If the score is less than the current best score for the opponent (beta), we can stop evaluating this branch
-        if score < beta:
-            return score
-        # If the score is greater than the current best score for us (alpha), update alpha
-        if score > alpha:
-            alpha = score
-        return alpha
+        if self.paddle2_x == self.future_x:
+            return 0
+        return 1 if self.paddle2_x < self.future_x else -1
 
     def update_state(self, bx, bz, b_dx, b_dz, p1x, p2x):
-        if time.time() - self.last_update > 0.2:
-            self.ball_x = bx
-            self.ball_z = bz
-            self.ball_dx = b_dx
-            self.ball_dz = b_dz
-            self.paddle1_x = p1x
-            self.paddle2_x = p2x
-            self.last_update = time.time()
+        self.ball_x = bx
+        self.ball_z = bz
+        self.ball_dx = b_dx
+        self.ball_dz = b_dz
+        self.paddle1_x = p1x
+        self.paddle2_x = p2x
+        self.future_x = self.predict()
 
+ai = AI(0, 0, 0, 0, 0, 0, 6, 12, 0.8, 0.08, 3)
 
 class GameEngine:
     def __init__(self, score1, score2):
@@ -335,20 +371,9 @@ class GameEngine:
         self.winner_id = None
         self.loser_id = None
         self.isAI = False
-        self.ai = AI(
-            self.ball.x,
-            self.ball.z,
-            self.ball.dx,
-            self.ball.dz,
-            self.paddle1.x,
-            self.paddle2.x,
-            self.width,
-            self.height,
-            self.paddle1.width,
-            self.paddle1.speed,
-            self.half_width,
-        )
         self.mode = None
+        self.refresh_rate = DIFFICULTY["easy"]
+        self.last_update = time.time()
 
     def check_score(self):
         if self.ball.z > self.half_height:
@@ -408,11 +433,12 @@ class GameEngine:
         elif id == 2 and self.isAI == False:
             self.paddle2.move(direction)
 
-    def start(self, mode):
+    def start(self, mode, difficulty="easy"):
         self.mode = mode
         if mode == "practice":
             self.isAI = True
-            self.ai.update_state(
+            self.refresh_rate = DIFFICULTY[difficulty]
+            ai.update_state(
                 self.ball.x,
                 self.ball.z,
                 self.ball.dx,
@@ -422,6 +448,18 @@ class GameEngine:
             )
         self.state = "playing"
 
+    def update_ai_state(self):
+        if time.time() - self.last_update >= self.refresh_rate:
+            ai.update_state(
+                self.ball.x,
+                self.ball.z,
+                self.ball.dx,
+                self.ball.dz,
+                self.paddle1.x,
+                self.paddle2.x,
+            )
+            self.last_update = time.time()
+
     def update(self):
         self.paddles_wall_collision()
         self.ball.update()
@@ -429,18 +467,11 @@ class GameEngine:
         self.ball_paddle_collision()
         self.check_score()
         if self.isAI:
+            self.update_ai_state()
             self.ai_move()
 
     def ai_move(self):
-        self.ai.update_state(
-            self.ball.x,
-            self.ball.z,
-            self.ball.dx,
-            self.ball.dz,
-            self.paddle1.x,
-            self.paddle2.x,
-        )
-        self.paddle2.move(self.ai.calculate_ai_move())
+        self.paddle2.move(ai.calculate_ai_move())
 
     def get_state(self):
         return {

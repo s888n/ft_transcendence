@@ -3,7 +3,7 @@ from channels.db import database_sync_to_async
 import json
 import asyncio
 from .game import LocalGameManager, OnlineGameManager
-from .models import Match
+from .models import Match, LocalMatch
 
 
 class LocalGameConsumer(AsyncWebsocketConsumer):
@@ -35,9 +35,15 @@ class LocalGameConsumer(AsyncWebsocketConsumer):
                 break
         result = self.game_manager.game_result()
         await self.send(text_data=json.dumps(result))
-        winner = self.game_manager.get_winner()
-        game_mode = result["mode"]
-        # do the database stuff here after adding the WebsocketMiddleware
+        match = LocalMatch.objects.create(
+            creator=self.user,
+            player1=result["player1"],
+            player2=result["player2"],
+            player1_score=result["score"]["player1"],
+            player2_score=result["score"]["player2"],
+            mode=result["mode"],
+            winner=result["winner"],
+        )
         await self.close()
 
 

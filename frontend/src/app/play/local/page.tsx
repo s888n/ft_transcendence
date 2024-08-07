@@ -2,7 +2,8 @@
 import { Canvas } from "@react-three/fiber";
 import React, { Suspense, useState, useContext } from "react";
 import UserContext from "@/contexts/UserContext";
-import Game from "@/Components/pong/Game";
+// import Game from "@/Components/pong/Game";
+import LocalGame from "@/Components/pong/LocalGame";
 import Ready from "@/Components/pong/Ready";
 import Pause from "@/Components/pong/Pause";
 import Players from "@/Components/pong/Players";
@@ -24,15 +25,17 @@ const map = [
 ];
 
 export default function Page() {
+	const[player1, setPlayer1] = useState("Salah");
+	const[player2, setPlayer2] = useState("Max");
+	const [winner, setWinner] = useState("");
 	const { user } = useContext(UserContext);
-	const [winner, setWinner] = useState("Player1");
-	const [gameState, setGameState] = useState(0);
+	const [gameState, setGameState] = useState("waiting");
 	const playerImage = `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + user?.avatar;
 	return (
 		<div className="fixed h-full w-full flex flex-col  justify-center items-center p-4">
 			<Players
-				player1Name="Player1"
-				player2Name="Player2"
+				player1Name={player1}
+				player2Name={player2}
 				player1Avatar={playerImage}
 				player2Avatar={playerImage}
 			/>
@@ -41,10 +44,8 @@ export default function Page() {
 				{gameState === "paused" && <Pause />}
 				{gameState === "gameover" && (
 					<Gameover
-						winner={winner === 0 ? "Player1" : "Player2"}
-						winnerImage={
-							playerImage
-						}
+						winner={winner}
+						winnerImage={playerImage}
 					/>
 				)}
 				<Canvas
@@ -52,10 +53,11 @@ export default function Page() {
 					className="rounded-lg"
 				>
 					<KeyboardControls map={map}>
-						<Game
+						<LocalGame
+							player1={player1}
+							player2={player2}
+							difficulty="easy"
 							mode={"pvp"}
-							local={true}
-							room_id=""
 							setWinner={setWinner}
 							gameState={gameState}
 							setGameState={setGameState}

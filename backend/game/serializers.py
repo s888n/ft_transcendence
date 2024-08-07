@@ -1,6 +1,5 @@
 from rest_framework import serializers
-from .models import Match
-# from users.serializers import UserSerializer
+from .models import Match, LocalMatch
 
 class MatchSerializer(serializers.ModelSerializer):
     # instead of returning the id of the player, we will return the avatar , username and email
@@ -30,3 +29,8 @@ class MatchSerializer(serializers.ModelSerializer):
                 "username": obj.winner.username,
             }
         return None
+
+class LocalMatchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LocalMatch
+        fields = "__all__"

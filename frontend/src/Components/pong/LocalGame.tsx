@@ -9,20 +9,22 @@ import Helpers from "./Helpers";
 import DashedLine from "./DashedLine";
 import Env from "./Env";
 import Borders from "./Borders";
-import Socket from "./Socket";
+import LocalEventHandler from "./LocalEventHandler";
 import Score from "./Score";
 
-export default function Game({
+export default function LocalGame({
+    player1,
+    player2,
 	mode,
-	local,
-	room_id,
+    difficulty,
 	setWinner,
 	gameState,
 	setGameState,
 }: {
+    player1: string;
+    player2: string;
+    difficulty: string;
 	mode: string;
-	local: boolean;
-	room_id: string;
 	setWinner: (winner: any) => void;
 	gameState: string;
 	setGameState: (state: string) => void;
@@ -46,14 +48,14 @@ export default function Game({
 		if (data.score1 !== score1) setScore1(data.score.player1);
 		if (data.score2 !== score2) setScore2(data.score.player2);
 	}
-
+    const updateGameState = (state: string)  => setGameState(state);
+    
 	function handleGameover(data: any) {
 		console.log(data);
 		setWinner(data.winner);
 		setScore1(data.score.player1);
 		setScore2(data.score.player2);
 	}
-	const updateGameState = (state: string)  => setGameState(state);
 
 	function update(data: any) {
 		// console.log(data);
@@ -71,30 +73,17 @@ export default function Game({
 			gameState !== "gameover" && updateGameState("gameover");
 			handleGameover(data);
 		}
-		if (data.state === "disconnected") {
-			gameState !== "disconnected" && updateGameState("disconnected");
-		}
 	}
 	useEffect(() => {
 		const accessToken = localStorage.getItem("user_token");
-		if (local)
-			socket.current = new WebSocket(
-				`${process.env.NEXT_PUBLIC_SOCKET_ENDPOINT}localgame/?token=${accessToken}`
-			);
-		else
-			socket.current = new WebSocket(
-				`${process.env.NEXT_PUBLIC_SOCKET_ENDPOINT}onlinegame/?token=${accessToken}`
-			);
+			socket.current = new WebSocket(`${process.env.NEXT_PUBLIC_SOCKET_ENDPOINT}localgame/?token=${accessToken}`);
 		socket.current.onopen = () => {
-			if (!local) {
-				socket.current.send(
-					JSON.stringify({
-						type: "join",
-						room_id: room_id,
-					})
-				);
+			console.log("Connected");
 			}
-		};
+		socket.current.onclose = () => {
+            console.log("Disconnected");
+            }
+
 		if (!socket.current) return;
 		socket.current.onmessage = (event) => {
 			const data = JSON.parse(event.data);
@@ -126,7 +115,7 @@ export default function Game({
 			</Stage>
 			{/* <Floor /> */}
 			<Score score1={score1} score2={score2} />
-			<Socket socket={socket} type={mode} />
+            <LocalEventHandler socket={socket} type={mode} player1={player1} player2={player2} difficulty={difficulty} />
 			<DashedLine />
 			<Helpers />
 		</>

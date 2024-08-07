@@ -43,7 +43,7 @@ export default function Page() {
                 </Link>
             </div>
             <div className="container mx-auto px-4 py-16 grid grid-cols-1 md:grid-cols-2 gap-8">
-                <GameModeCard mode="Practice" description="Sharpen your skills against the AI" 
+                <GameModeCard mode="Practice" description="Sharpen your skills against our AI &quot;Bender&quot;" 
                 source='/play/icons/practice.png'
                 handleClick={() => router.push("/play/practice")} />
                 <GameModeCard mode="Local Multiplayer" description="Challenge a friend locally" 

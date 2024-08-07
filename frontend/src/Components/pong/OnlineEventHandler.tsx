@@ -6,10 +6,9 @@ import { useKeyboardControls } from "@react-three/drei";
 import UserContext from "@/contexts/UserContext";
 interface SocketProps {
 	socket: React.MutableRefObject<WebSocket>;
-	type: string;
 }
 
-export default function Socket({ socket, type }: SocketProps) {
+export default function OnlineEventHandler({ socket }: SocketProps) {
 	const [ subscribeKeys, getKeys ] = useKeyboardControls()
 	const {user} = useContext(UserContext);
 
@@ -19,7 +18,7 @@ export default function Socket({ socket, type }: SocketProps) {
 					socket.current.send(
 						JSON.stringify({
 							event: "START",
-							type: type,
+							type: "online",
 							username: user?.username,
 						})
 					);
@@ -27,7 +26,7 @@ export default function Socket({ socket, type }: SocketProps) {
 					socket.current.send(
 						JSON.stringify({
 							event: "PAUSE",
-							type: type,
+							type: "online",
 							username: user?.username,
 						})
 					);
@@ -37,7 +36,7 @@ export default function Socket({ socket, type }: SocketProps) {
 		return () => {
 			window.removeEventListener("keydown", handleKeyDown);
 		};
-	}, [socket, type, user]);
+	}, [socket, user]);
 
 	useFrame((state, delta) => {
 		const { moveUP1 , moveUP2 ,moveDOWN1 ,moveDOWN2} = getKeys();
@@ -45,7 +44,7 @@ export default function Socket({ socket, type }: SocketProps) {
 			socket.current.send(
 				JSON.stringify({
 					event: "MOVE",
-					type: type,
+					type: "online",
 					direction: 1,
 					playerID: 1,
 					username: user?.username,
@@ -55,7 +54,7 @@ export default function Socket({ socket, type }: SocketProps) {
 			socket.current.send(
 				JSON.stringify({
 					event: "MOVE",
-					type: type,
+					type: "online",
 					direction: -1,
 					playerID: 1,
 					username: user?.username,
@@ -65,7 +64,7 @@ export default function Socket({ socket, type }: SocketProps) {
 			socket.current.send(
 				JSON.stringify({
 					event: "MOVE",
-					type: type,
+					type: "online",
 					direction: 1,
 					playerID: 2,
 					username: user?.username,
@@ -75,7 +74,7 @@ export default function Socket({ socket, type }: SocketProps) {
 			socket.current.send(
 				JSON.stringify({
 					event: "MOVE",
-					type: type,
+					type: "online",
 					direction: -1,
 					playerID: 2,
 					username: user?.username,

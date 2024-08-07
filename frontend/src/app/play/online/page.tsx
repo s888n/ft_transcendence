@@ -3,7 +3,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { getAPI } from "@/api/APIServices";
-import Game from "@/Components/pong/Game";
+import Game from "@/Components/pong/OnlineGame";
 import Ready from "@/Components/pong/Ready";
 import Gameover from "@/Components/pong/Gameover";
 import { KeyboardControls } from "@react-three/drei";
