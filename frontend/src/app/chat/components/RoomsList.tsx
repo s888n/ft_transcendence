@@ -81,8 +81,6 @@ const RoomsList: React.FC<RoomsListProps> = ({ selectedChatroom, setSelectedChat
         setRefresh(!refresh);
     };
 
-    console.log("herrroooo", process.env.NEXT_PUBLIC_SERVER_ENDPOINT)
-
     return (
         <div className="mt-1">
             <h3 className="text-lg text-myred font-semibold mb-1 px-2">Conversations</h3>

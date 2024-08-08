@@ -93,9 +93,6 @@ export default function Page() {
     if (user == null || user === undefined) {
       return <ChatLoader />;
     }
-
-    console.log("herrroooo", process.env.NEXT_PUBLIC_SERVER_ENDPOINT)
-
   
     return (
       <div className="flex h-[90vh] ">

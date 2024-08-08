@@ -69,7 +69,6 @@ const FriendsList: React.FC<FriendlistProps> = ({ selectedChatroom, setSelectedC
     fetchFriends();
   }, []);
 
-  console.log("herrroooo", process.env.NEXT_PUBLIC_SERVER_ENDPOINT)
 
 
   return (

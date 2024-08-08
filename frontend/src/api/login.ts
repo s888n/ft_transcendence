@@ -14,7 +14,6 @@ export const login = async (postData: LoginInterface) => {
 }
 
 const get42Token = async () => {
-    console.log("hereeee")
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const code = urlParams.get('code')
@@ -25,18 +24,10 @@ const get42Token = async () => {
 }
 
 export const login42Intra = async () => {
-    console.log("hereeee")
     const tokenRes = await get42Token();
-    console.log("hereeee", tokenRes)
 
     return postAPI2("intra", { 'access_token': tokenRes.data['access_token'] })
         .then((res: any) => {
-            console.log("res", res)
-            console.log("reply", {
-                data: res.data,
-                status: 201
-            })
-            console.log("data", res.data)
             return {
                 data: res.data,
                 status: 201

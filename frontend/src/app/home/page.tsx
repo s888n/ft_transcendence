@@ -54,18 +54,15 @@ const TounamentInformationComponent: FC<TounamentInformationComponentProps> = ({
       nickname: formNickname,
     };
 
-    console.log("put data", putData);
     const res = await updateProfile(putData);
     if (res.status === 202) {
       toast.success("Updated successfully");
-      console.log("res", res);
       setUser(res.data);
     } else {
       if (res?.data.nickname) {
         setInputError(true);
       }
       toast.error("Oops, failed to update nickname!!");
-      console.log("errrrrrrr88888", res);
     }
   };
 

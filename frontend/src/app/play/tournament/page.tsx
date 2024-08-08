@@ -108,14 +108,14 @@ export default function Page({ searchParams }: any) {
 	}
 	return (
 		<div className="fixed h-full w-full flex flex-col items-center text-black border-2">
-			<h2 className="text-3xl font-bold mt-10">
+			<h2 className="text-3xl font-bold mt-10 py-6">
 				<span className="text-myred">{details?.name}</span> Tournament
 			</h2>
 			{/* <Players players={details?.players} /> */}
 			<Matches
 				matches={details?.matches}
 				roundsNumber={details?.rounds}
-				winner={details?.winner}
+				currenMatch={currMatch}
 			/>
 			<CurrentMatch match={currMatch} />
 			<div className="relative rounded-lg shadow-lg p-6 w-full h-1/2">
@@ -179,11 +179,11 @@ function Players({ players }: { players: any[] }) {
 function Matches({
 	matches,
 	roundsNumber,
-	winner,
+	currenMatch,
 }: {
 	matches: any[];
 	roundsNumber: number;
-	winner: string;
+	currenMatch: any;
 }) {
 	if (!matches) {
 		return <></>;
@@ -204,11 +204,13 @@ function Matches({
 							key={index}
 							className="flex flex-row w-64 justify-center"
 						>
-							<div className="p-2 font-bold border-2 w-full text-center flex items-center justify-center rounded-lg">
-								<p className="w-[40%] truncate text-right mr-2">
+							<div className={`p-2  border-2 w-full text-center flex items-center justify-center rounded-lg
+									${match.id === currenMatch.id ? "border-myred" : ""}`
+							}>
+								<p className="w-[40%] truncate text-right mr-2 font-bold px-2">
 									<span
 										className={`text-${
-											match.player1 === winner
+											match.player1 === match.winner
 												? "green"
 												: "black"
 										}-500`}
@@ -218,21 +220,16 @@ function Matches({
 								</p>
 								<span>{match.score1}</span>-
 								<span>{match.score2}</span>
-								<p className="w-[40%] truncate text-left ml-2">
+								<p className="w-[40%] truncate text-left ml-2 font-bold px-2">
 									<span
 										className={`text-${
-											match.player2 === winner
+											match.player2 === match.winner
 												? "green"
 												: "black"
 										}-500`}
 									>{match.player2}</span>
 								</p>
 							</div>
-							{match.winner && (
-								<div className="p-4 text-2xl font-bold border-2 m-4">
-									{match.winner}
-								</div>
-							)}
 						</div>
 					))}
 				</div>
