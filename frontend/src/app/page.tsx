@@ -4,16 +4,14 @@ import {
 	OrbitControls,
 	ContactShadows,
 	Float,
-	Center,
 } from "@react-three/drei";
-import FriendPopup from "./chat/components/FriendPopup";
+
 import { Canvas } from "@react-three/fiber";
 import Arcade from "@/Components/Arcade";
 import Greeting from "@/Components/Greeting";
 import { Suspense, use, useContext } from "react";
 import UserContext from "@/contexts/UserContext";
 import Navbar from "@/Components/Navbar";
-import Loading from "@/Components/pong/Loading";
 import { getAPI } from "@/api/APIServices";
 import { useEffect, useState } from "react";
 import { getFriends } from "@/api/chat";
@@ -116,8 +114,22 @@ function Friends() {
 										alt={`${friend.username}'s avatar`}
 									/>
 								</div>
+								{/* online status indicator here */}
 								<div className="flex-1 min-w-0">
-									<p className="text-md text-center font-medium  truncate ">
+									{friend.is_online ? (
+										<div className="flex items-center">
+											<div className="w-3 h-3 bg-green-500 rounded-full"></div>
+											<p className="text-xs text-green-500 ml-1">Online</p>
+										</div>
+									) : (
+										<div className="flex items-center">
+											<div className="w-3 h-3 bg-gray-500 rounded-full"></div>
+											<p className="text-xs text-gray-500 ml-1">Offline</p>
+										</div>
+									)}
+								</div>
+								<div className="flex-1 min-w-0">
+									<p className="text-md text-left font-medium  truncate ">
 										{friend.username}
 									</p>
 								</div>
