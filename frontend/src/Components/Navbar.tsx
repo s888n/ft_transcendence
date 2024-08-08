@@ -19,6 +19,9 @@ import "react-toastify/dist/ReactToastify.css";
 import { getAPI, getAPI2, postAPI } from "@/api/APIServices";
 import FriendRequestNotification from "./FriendRequestNotification";
 import axios from "axios";
+import FriendRequestPopup from "./FriendRequests";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserPlus } from '@fortawesome/free-solid-svg-icons';
 
 const ProfilePopup: FC<any> = ({ setDisplayProfilePopup }) => {
 	const profilePopupRef = useRef<HTMLDivElement | null>(null);
@@ -364,6 +367,7 @@ const Navbar = () => {
 	const [displayProfilePopup, setDisplayProfilePopup] = useState(false);
 	const { user, setUser } = useContext(UserContext);
 	const router = useRouter();
+	const [friend_requestPopup, setFriendRequestPopup] = useState(false);
 
 	useEffect(() => {
 		const accessToken = localStorage.getItem("user_token");
@@ -410,6 +414,16 @@ const Navbar = () => {
 									<p>Chat</p>
 								</Link>
 							</li>
+							<li>
+							<div className="w-10 h-10 rounded-full  cursor-pointer overflow-hidden flex items-center justify-center">
+                				<FontAwesomeIcon
+                    				icon={faUserPlus}
+                    			className="text-red-500 w-5 h-5"
+                    			onClick={() => setFriendRequestPopup(true)}
+                					/>
+            					</div>
+								
+							</li>
 							<li className="hidden md:block">
 								<div className="bg-myred hover:bg-myred-h w-full h-10 px-4 rounded text-white">
 									<Link
@@ -440,6 +454,11 @@ const Navbar = () => {
 								</div>
 							</li>
 						</ul>
+						{friend_requestPopup && (
+							<FriendRequestPopup
+								setDisplayFriendRequestPopup = {setFriendRequestPopup}
+							/>
+						)}
 						{displayProfilePopup && (
 							<ProfilePopup
 								setDisplayProfilePopup={setDisplayProfilePopup}

@@ -80,17 +80,32 @@ function DifficultyMenu({  difficulty ,setDifficulty }: {
 	return (
 		<div className="w-full text-black text-2xl flex justify-center items-center space-x-4">
 			<span>Difficulty:</span>
-			{levels.map((level) => (
+			<div className="flex space-x-4">
 				<button
-					key={level}
-					onClick={() => setDifficulty(level)}
-					className={`${
-						difficulty === level ? "bg-pink-500" : ""
-					} p-2 rounded-lg border-2 border-black`}
+					className={`px-2 py-1 rounded-lg ${
+						difficulty === "easy" ? "bg-green-500" : "bg-gray-400"
+					}`}
+					onClick={() => setDifficulty("easy")}
 				>
-					{level}
+					Easy
 				</button>
-			))}
+				<button
+					className={`px-2 py-1 rounded-lg ${
+						difficulty === "medium" ? "bg-yellow-500" : "bg-gray-400"
+					}`}
+					onClick={() => setDifficulty("medium")}
+				>
+					Medium
+				</button>
+				<button
+					className={`px-2 py-1 rounded-lg ${
+						difficulty === "hard" ? "bg-red-500" : "bg-gray-400"
+					}`}
+					onClick={() => setDifficulty("hard")}
+				>
+					Hard
+				</button>
+			</div>
 		</div>
 	);
 }
