@@ -802,3 +802,14 @@ def is_online(request):
     user_id = request.id
     user = User.objects.get(id=user_id)
     return Response(user.is_online)
+
+
+
+@api_view(["GET"])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def get_friend_requests(request):
+    user = request.user
+    requests = FriendRequest.objects.filter(receiver=user, is_active=True)
+    serializer = FriendRequestSerializer(requests, many=True)
+    return Response(serializer.data)

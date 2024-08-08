@@ -62,3 +62,11 @@ export const getUserStats = async (username: string) => {
             return res;
         })
 }
+
+
+export const getFriendRequests = async () => {
+    return getAPI('get_friend_requests')
+        .then((res: any) => {
+            return res;
+        })
+}

@@ -17,6 +17,7 @@ urlpatterns = [
     re_path("apiback/accept_request", views.accept_request),
     re_path("apiback/cancel_request", views.cancel_request),
     re_path("apiback/reject_request", views.reject_request),
+    re_path("apiback/get_friend_requests", views.get_friend_requests),
     re_path("apiback/unfriend", views.unfriend),
     re_path("apiback/intra", views.intra),
     re_path("apiback/deblock_user", views.deblock_user),
