@@ -200,16 +200,12 @@ def users(request):
 def update_avatar(request):
     if "file" in request.data:
         file_obj = request.data["file"]
-        print("fffile", file_obj)
         serializer = AvatarSerializer(data={"file": file_obj})
-        print("mmmmm")
         if serializer.is_valid():
-            print("serializer.valid()")
             upload_dir = os.path.join(settings.MEDIA_ROOT, "avatars")
             # Ensure the directory exists; create it if it doesn't
             os.makedirs(upload_dir, exist_ok=True)
             user = request.user
-            print(user.avatar, request.user)
             if user.avatar != "" and user.avatar != "default.png":
                 old_avatar = os.path.join(upload_dir, user.avatar)
                 if os.path.exists(old_avatar):
@@ -221,7 +217,6 @@ def update_avatar(request):
                 generate_random_avatar_name(10, file_extension) + file_extension
              )
             filename = os.path.join(upload_dir, file_name)
-            print(")FILEEEE NAEMEEEE", file_name)
 
             # Open the file in write binary mode and save the uploaded data
             with open(filename, "wb") as destination:
@@ -236,7 +231,6 @@ def update_avatar(request):
             {"avatar_updated": True, "file_path": file_name},
             status=status.HTTP_202_ACCEPTED,
         )
-        print("mmm2")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     else:
         return Response({"error": "No file provided"}, status=400)
