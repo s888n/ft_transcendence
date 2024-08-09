@@ -21,6 +21,8 @@ DEBUG = bool(os.environ.get("DJANGO_DEBUG", True))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "*").split(" ")
 
+HOST_URL = os.environ.get("HOST_URL", "hot url not found")
+
 
 # Application definition
 
@@ -109,12 +111,14 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "https://localhost:3000",
     "https://127.0.0.1:3000",
+    HOST_URL
 ]
 CSRF_TRUSTED_ORIGINS=[
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "https://localhost:3000",
     "https://127.0.0.1:3000",
+    HOST_URL
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False
