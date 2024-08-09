@@ -88,6 +88,8 @@ def signup(request):
     if serializer.is_valid():
         print("dudududududud")
         user = serializer.save()
+        user.set_password(request.data["password"])
+        user.save()
 
         token_payload = {
             "user": {
