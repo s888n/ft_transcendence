@@ -38,6 +38,10 @@ export default function Page() {
       toast.error("Passwords are not the same!");
       return;
     }
+    if (password.trim() !== password){
+      toast.error("Password can't start or end with spaces!!")
+      return;
+    }
     const email = formData.get("email") as string;
     const username = formData.get("username") as string;
     const postData = { username: username, email: email, password: password };

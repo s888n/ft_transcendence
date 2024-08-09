@@ -56,7 +56,8 @@ from .serializers import (
     FriendRequestSerializer,
     User42Serializer,
     FriendBlockSerializer,
-    RegisterUserSerializer
+    RegisterUserSerializer,
+    ChangePasswordSerializer
 )
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -82,16 +83,11 @@ from .validators import is_strong_assword
 @api_view(["POST"])
 @parser_classes([JSONParser])
 def signup(request):
-    print("dudududududud")
+    print("dudududududud", "|" + request.data["password"] + "|")
     serializer = RegisterUserSerializer(data=request.data)
     if serializer.is_valid():
+        print("dudududududud")
         user = serializer.save()
-        user = User.objects.get(username=request.data["username"])
-        password = request.data["password"].strip()
-        user.set_password(password)
-        user.avatar = "default.jpeg"
-        user.is_from_42 = False
-        user.save()
 
         token_payload = {
             "user": {
@@ -173,25 +169,13 @@ def profile(request):
 @permission_classes([IsAuthenticated])
 @parser_classes([JSONParser])
 def change_password(request):
-    old_password = request.data.get("old_password")
-    new_password = request.data.get("new_password")
-
-    if not old_password or not new_password:
-        return Response(
-            {"error": "Both old_password and new_password are required"}, status=400
-        )
-
-    user = request.user
-    print("user.password", user.password)
-
-    if not check_password(old_password, user.password):
-        return Response({"error": "Incorrect current password"}, status=400)
-    print("user.password", user.password)
-    if (is_strong_assword(new_password)):
-        user.set_password(new_password)
-        user.save()
+    serializer = ChangePasswordSerializer(data=request.data, context={'request': request})
+    
+    if serializer.is_valid():
+        serializer.save()
         return Response({"message": "Password updated successfully"}, status=202)
-    return  Response({"error": "new password must be at least 8 characters long"}, status=400)
+    
+    return Response(serializer.errors, status=400)
 
 
 

@@ -9,6 +9,28 @@ class UserGetterSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = User
         fields = ["username", "email", "nickname", "avatar" , "id" , "is_online"]
+        
+class ChangePasswordSerializer(serializers.Serializer):
+    old_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(write_only=True)
+
+    def validate_old_password(self, value):
+        user = self.context['request'].user
+        if not user.check_password(value):
+            raise serializers.ValidationError("Incorrect current password")
+        return value
+
+    def validate_new_password(self, value):
+        user = self.context['request'].user
+        validators.validate_password(value, user=user)
+        return value
+
+    def save(self):
+        user = self.context['request'].user
+        new_password = self.validated_data['new_password']
+        user.set_password(new_password)
+        user.save()
+        return user
 
 
 class RegisterUserSerializer(serializers.ModelSerializer):
@@ -22,8 +44,12 @@ class RegisterUserSerializer(serializers.ModelSerializer):
         user = User(**data)
         
         password = data.get('password')
-        
+        print("|" + password + "|")
+        print("|" + password.strip() + "|")
         errors = dict() 
+        if (password != password.strip()):
+            errors['password'] = list("cant have spaces in front or back")
+            raise serializers.ValidationError(errors)
         try:
             validators.validate_password(password=password, user=user)
         

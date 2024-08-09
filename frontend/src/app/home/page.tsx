@@ -223,6 +223,10 @@ const AuthorizationComponent = () => {
     const form = new FormData(e.currentTarget);
     const old_password = form.get("old_password") as string;
     const new_password = form.get("new_password") as string;
+    if (new_password.trim() !== new_password){
+      toast.error("Password can't start or end with spaces!!")
+      return;
+    }
     if (!old_password.length || !new_password.length) {
       toast.error("Both fields are required to update password!");
       return;
@@ -238,8 +242,15 @@ const AuthorizationComponent = () => {
       toast.success("Updated successfully");
       console.log("sucxxxx", res);
     } else if (res.status === 400) {
-      toast.error(res.data.error);
-      console.log("errrrrrrr88888", res);
+      if (res?.data?.new_password){
+        toast.error(res?.data?.new_password[0]);
+        console.log("errrrrrrr88888", res?.data?.new_password[0]);
+      }
+      else if (res?.data?.old_password){
+        toast.error(res?.data?.old_password[0]);
+        console.log("errrrrrrr88888", res?.data?.old_password[0]);
+      }
+      else toast.error("Error!!..")
     }
   };
   return (
