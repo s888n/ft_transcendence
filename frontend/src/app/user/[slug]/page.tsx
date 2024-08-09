@@ -36,8 +36,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     console.log("ddddaaatda", data)
     if (data?.data) {
       console.log(params.slug)
-      const winsMatches = data?.data.filter((match: any, index) => {
-        console.log(index, match.winner?.username, params.slug)
+      const winsMatches = data?.data.filter((match: any) => {
         if (match.winner?.username === params.slug) return match
       })
       const actualStats = {

@@ -213,7 +213,6 @@ const ChatBox = ({ selectedChatroom }: ChatBoxProps) => {
                           <img
                             src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/${message.sender_id == user?.id ? user?.avatar : selectedChatroom.friend_avatar}`}
                             className="object-cover rounded-full"
-                            fill
                             alt={message.sender_id === user?.id ? user?.username : selectedChatroom.friend}
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                           />

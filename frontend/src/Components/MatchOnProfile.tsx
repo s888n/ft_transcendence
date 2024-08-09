@@ -1,7 +1,8 @@
 import { useRouter } from "next/navigation";
+import { FC } from "react";
 
 
-const MatchOnProfile = ({ match, profileUserName, searchedUser }) => {
+const MatchOnProfile:FC<any> = ({ match, profileUserName, searchedUser }) => {
     const router = useRouter()
 
     const matchFinished = match.finished

@@ -38,7 +38,7 @@ export default function Page() {
     console.log("ddddaaatda", data)
     if (data?.data) {
       // console.log(params.slug)
-      const winsMatches = data?.data.filter((match: any, index) => {
+      const winsMatches = data?.data.filter((match: any) => {
         // console.log(index, match.winner.username, user?.username)
         if (match.winner?.username === user?.username) return match
       })

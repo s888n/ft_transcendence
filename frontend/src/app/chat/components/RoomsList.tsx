@@ -102,7 +102,6 @@ const RoomsList: React.FC<RoomsListProps> = ({ selectedChatroom, setSelectedChat
                                         <img
                                             src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/${room.friend_avatar}`}
                                             className="object-cover rounded-full"
-                                            fill
                                             alt={room.friend}
                                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                         />
