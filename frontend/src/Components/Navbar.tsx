@@ -378,7 +378,7 @@ const Navbar = () => {
 		<>
 			<NotificationComponent />
 
-			<div className="w-full h-20 sticky top-0 border-b bg-white">
+			<div className="w-full h-20 sticky top-0 border-b bg-white z-20">
 				<div className="container mx-auto px-4 h-full">
 					<div className="flex relative justify-between items-center h-full text-black">
 						<Link
@@ -403,7 +403,7 @@ const Navbar = () => {
 							<div className="w-10 h-10 rounded-full  cursor-pointer overflow-hidden flex items-center justify-center">
                 				<FontAwesomeIcon
                     				icon={faUserPlus}
-                    			className="text-red-500 w-5 h-5"
+                    			className=" w-5 h-5"
                     			onClick={() => setFriendRequestPopup(true)}
                 					/>
             					</div>

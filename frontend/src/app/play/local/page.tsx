@@ -20,8 +20,8 @@ const Rules = [
 const map = [
 	{ name: "moveUP1", keys: ["ArrowUp", "ArrowRight"] },
 	{ name: "moveDOWN1", keys: ["ArrowDown", "ArrowLeft"] },
-	{ name: "moveUP2", keys: ["KeyW", "KeyD"] },
-	{ name: "moveDOWN2", keys: ["KeyS", "KeyA"] },
+	{ name: "moveUP2", keys: ["KeyW", "KeyS"] },
+	{ name: "moveDOWN2", keys: ["KeyS", "KeyD"] },
 ];
 
 export default function Page() {
