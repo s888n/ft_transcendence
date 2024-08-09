@@ -1,4 +1,4 @@
 # ft_transcendence
 
-## bugs
-- [ ] redo password shit  !!! (ex: "0123456789  pp" is valid password, if you log out it's gg on your account)
+## To run :
+    - Change `10.13.10.1` with your ip in both  `.env` and `frontend/.env.production` files

@@ -16,7 +16,6 @@ export default async function handler(
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken || ""}`,
     }
-    // console.log("bearer", cookies, accessToken, requestBody)
     if (req.method === "POST") {
 
         const response = await fetch(`${process.env.BACKEND_ENDPOINT}/apiback/reject_request`, {
@@ -27,7 +26,6 @@ export default async function handler(
 
         if (response.status === 202) {
             const responseData = await response.json();
-            // console.log(response, responseData)
             res.status(202).json(responseData)
         } else
             res.status(response.status).json(response)

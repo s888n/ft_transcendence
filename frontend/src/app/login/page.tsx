@@ -21,20 +21,6 @@ export default function Page() {
 	const router = useRouter();
 
 	useEffect(() => {
-		// if (localStorage.getItem("user_token")) router.push("/home");
-		// else
-		// (async () => {
-		//   const cookiesss = await axios("http://127.0.0.1:3000/api/test_token", {
-		//     method: "GET",
-		//     withCredentials: true
-		//   })
-		//   // const test = await axios("http:///127.0.0.1:3000/test_token", {
-		//   //   method: "GET",
-		//   //   withCredentials: true
-		//   // })
-		//   console.log("COOOCIESSS", cookiesss)
-		// })()
-
 		setLoading(false);
 	}, []);
 
@@ -44,7 +30,6 @@ export default function Page() {
 		const email = formData.get("email") as string;
 		const password = formData.get("password") as string;
 		const postData = { email: email, password: password };
-		console.log("postData", postData);
 		const res = await login(postData);
 		if (res.status === 200) {
 			const accessToken = res.data.access;
@@ -52,19 +37,10 @@ export default function Page() {
 			const decodedToken: any = jwt.decode(accessToken);
 			localStorage.setItem("user_token", accessToken);
 			localStorage.setItem("token_expiration", decodedToken.exp);
-			// localStorage.setItem("refresh_token", refreshToken);
-			console.log(
-				"acessss",
-				decodedToken,
-				decodedToken?.user,
-				typeof decodedToken
-			);
-			console.log("uressss", decodedToken.user);
 			setUser(decodedToken.user);
 
 			router.push("/");
 		} else {
-			console.log("toassssst");
 			setLogError(true);
 			toast.error("Invalid credentials");
 		}

@@ -26,7 +26,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
         const socket = new WebSocket(`${process.env.NEXT_PUBLIC_SOCKET_ENDPOINT}chat/private/?token=${token}`);
 
         socket.onopen = () => {
-            console.log('WebSocket connection opened');
         };
 
         socket.onmessage = (event) => {
@@ -35,7 +34,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({ children }) => {
         };
 
         socket.onclose = () => {
-            console.log('WebSocket connection closed');
         };
 
         socket.onerror = (error) => {

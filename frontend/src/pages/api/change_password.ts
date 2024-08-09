@@ -15,10 +15,7 @@ export default async function handler(
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken || ""}`,
     }
-    // console.log("bearer", cookies, accessToken, requestBody)
     if (req.method === "PUT"){
-        console.log("booody", requestBody)
-
         const response = await fetch(`${process.env.BACKEND_ENDPOINT}/apiback/change_password`, {
             headers: headers,
             method: "PUT",
@@ -27,10 +24,8 @@ export default async function handler(
         
         if (response.status === 202){
             const responseData = await response.json();
-            console.log(response, responseData)
             res.status(202).json({ ...responseData })
         }else 
-        console.log('risoooo', response)
         res.status(response.status).json({ ... await response.json() })
     }
 }

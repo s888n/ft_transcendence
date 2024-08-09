@@ -12,7 +12,6 @@ const ContextsProviders: FC<ComponentProps> = ({ children }) => {
   const [toggleSidebar, setToggleSidebar] = useState(false);
 
   const setUser = (newUser: UserType) => {
-    console.log("User is being updated:", newUser);
 
     localStorage.setItem("user_name", newUser.username);
     localStorage.setItem("user_email", newUser.email);

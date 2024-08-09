@@ -27,7 +27,6 @@ const ProfilePopup: FC<any> = ({ setDisplayProfilePopup }) => {
 	const profilePopupRef = useRef<HTMLDivElement | null>(null);
 	const { user, setUser } = useContext(UserContext);
 	const router = useRouter();
-	console.log("Rendredddddddxx");
 
 	useEffect(() => {
 		function handleClickOutside(event: MouseEvent) {
@@ -53,7 +52,6 @@ const ProfilePopup: FC<any> = ({ setDisplayProfilePopup }) => {
 	const handleLogout = async () => {
 		localStorage.clear();
 		const res = await getAPI2("/logout");
-		console.log("ress logout", res);
 		router.push("/login");
 	};
 	return (
@@ -125,11 +123,6 @@ const SearchComponent = () => {
 		queryFn: () => searchForUser(searchValue),
 	});
 
-	useEffect(() => {
-		console.log("dataaaa", data);
-		console.log("SEARCHHHHHHH", data);
-	}, [data]);
-
 	const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
 		if (e.target) setSearchValue(e.target.value);
 	};
@@ -168,7 +161,6 @@ const SearchComponent = () => {
 					<div className="p-2">Ooops, error loading data!..</div>
 				</div>
 			);
-		console.log(data?.data?.length);
 		if (
 			data?.data?.filter(
 				(user: UserType) =>
@@ -249,14 +241,13 @@ const SearchComponent = () => {
 };
 
 const InvitePopup = (sender: string, receiver: string) => {
-	// const router = useRouter();
 	const acceptInvite = async () => {
 		const response = await postAPI("notifications/accept_game_invite/", {
 			sender: sender,
 			receiver: receiver,
 		}).then((res: any) => {
 			if (res.status === 200) {
-				// console.log(res.data);
+				
 			} else {
 				toast.error("Error accepting invite");
 			}
@@ -300,11 +291,9 @@ const NotificationComponent = () => {
 			`${process.env.NEXT_PUBLIC_SOCKET_ENDPOINT}notifications/?token=${accessToken}`
 		);
 		ws.onopen = () => {
-			// console.log("Connected to websocket");
 		};
 		ws.onmessage = (e) => {
 			const data = JSON.parse(e.data);
-			console.log("DATA", data);
 			if (data.type === "game_invite") {
 				toast(InvitePopup(data.sender, data.receiver), {
 					theme: "dark",
@@ -366,14 +355,7 @@ const NotificationComponent = () => {
 const Navbar = () => {
 	const [displayProfilePopup, setDisplayProfilePopup] = useState(false);
 	const { user, setUser } = useContext(UserContext);
-	const router = useRouter();
 	const [friend_requestPopup, setFriendRequestPopup] = useState(false);
-
-	useEffect(() => {
-
-		console.log("usrrrrr", user)
-	}, [user])
-
 	return (
 		<>
 			<NotificationComponent />

@@ -48,7 +48,6 @@ export default function OnlineGame({
 	}
 
 	function handleGameover(data: any) {
-		console.log(data);
 		setWinner(data.winner);
 		setScore1(data.score.player1);
 		setScore2(data.score.player2);
@@ -56,7 +55,6 @@ export default function OnlineGame({
 	const updateGameState = (state: string)  => setGameState(state);
 
 	function update(data: any) {
-		// console.log(data);
 		if (data.state === "waiting") {
 			gameState !== "waiting" && updateGameState("waiting");
 		}

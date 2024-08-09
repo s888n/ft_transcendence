@@ -75,7 +75,6 @@ export default function Page({ searchParams }: any) {
 		setGameId(id);
 		getAPI(`game/match/${id}/`).then((response: any) => {
 			if (response.status === 200) {
-				console.log(response.data);
 				setPlayer1(response.data.player1);
 				setPlayer2(response.data.player2);
 				setIsFinished(response.data.finished);

@@ -20,11 +20,8 @@ export default function Page() {
     looses: 69,
   })
   useEffect(() => {
-    console.log("ddddaaatda", data)
     if (data?.data) {
-      // console.log(params.slug)
       const winsMatches = data?.data.filter((match: any) => {
-        // console.log(index, match.winner.username, user?.username)
         if (match.winner?.username === user?.username) return match
       })
       const actualStats = {
@@ -33,7 +30,6 @@ export default function Page() {
         looses: data?.data.length - winsMatches.length,
       }
       setStats(actualStats)
-      console.log("statsssss", actualStats)
     }
   }, [data, user])
 

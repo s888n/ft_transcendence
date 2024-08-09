@@ -53,7 +53,6 @@ axios.interceptors.response.use(
         return config;
     },
     async (error) => {
-        console.log("frrrree", error.response)
         if (error.response.status === 401){
             console.error('Unautherized:');
             await getAPI2("/logout");
@@ -174,7 +173,6 @@ export const putAPI = async (url: string, data: unknown, id?: number): Promise<u
         data,
     })
         .then((response) => {
-            console.log("url", url)
             if ((process.env.APP_ENV as string) === 'development') console.log(response);
             return {
                 status: response.status,

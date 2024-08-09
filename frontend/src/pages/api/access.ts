@@ -9,9 +9,7 @@ export default function handler(
 ) {
   const cookies = cookie.parse(req.headers.cookie ?? '');
   const access = cookies?.access_token
-  console.log("coooks in /api/access", access)
   
   if (access)
     res.status(200).send({ access_token: access })
-  // res.status(401).send({ error: "Unauthrized" })
 }

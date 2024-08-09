@@ -23,14 +23,11 @@ export const Modal: React.FC<ModalProps> = ({ setDisplayModal }) => {
     if (nickname.trim() == "") return;
     const putData = { nickname: nickname };
     const res = await updateProfile(putData);
-    console.log("resssss", res);
     if (res.status === 202) {
-      console.log("nickname updated");
       toast.success("Nickname updated succefully");
       setDisplayModal(false);
       router.push("/home");
     } else {
-      console.log("nickname error", res);
       setNicknameUsed(true);
       toast.error("Nickname already used");
     }

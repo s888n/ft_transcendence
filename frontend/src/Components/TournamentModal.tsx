@@ -18,20 +18,8 @@ export default function TournamentModal({ setShowTournamentModal }: TournamentMo
     const [error, setError] = useState('');
 
 
-    // const fetchTournaments = async () => {
-    //     const data = await getAPI('api/tournament//get_tournaments');
-    //     console.log(data);
-    // }
-    // fetchTournaments();
-    
-
     const handleSubmission = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // console.log({
-        //     tournamentName,
-        //     numPlayers,
-        //     players,
-        // });
         const data: any = await postAPI('tournament/create_tournament/', {
             name: tournamentName,
             numberOfPlayers: numPlayers,
@@ -39,7 +27,6 @@ export default function TournamentModal({ setShowTournamentModal }: TournamentMo
         })
         .then((res: any) => {
             if (res.status === 201) {
-                // console.log(res.data);
                 router.push(`/play/tournament?id=${res.data.id}`);
             }
             else {

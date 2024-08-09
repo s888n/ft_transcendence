@@ -39,35 +39,23 @@ export default function Page() {
     const email = formData.get("email") as string;
     const username = formData.get("username") as string;
     const postData = { username: username, email: email, password: password };
-    console.log("postData", postData);
     const res = await register(postData);
     if (res.status === 201) {
-      console.log("res", res.data);
       const accessToken = res.data.access;
       const decodedToken: any = jwt.decode(accessToken);
       localStorage.setItem("user_token", accessToken);
       localStorage.setItem("token_expiration", decodedToken.exp);
-      // localStorage.setItem("refresh_token", res.data.refresh);
-      console.log(
-        "acessss",
-        decodedToken,
-        decodedToken?.user,
-        typeof decodedToken
-      );
       setUser(decodedToken.user)
       if (decodedToken?.user.nickname === "") setDisplayNicknameModal(true);
       router.push("/");
 
     } else {
-      console.log("toassssst", res);
-      console.log("toassssst", res?.data?.data);
       const newInvalidData = {
         email: res.data?.data?.email ? true : false,
         username: res.data?.data?.username ? true : false,
         password: res.data?.data?.password ? true : false
       };
       setInvalidData(newInvalidData);
-      console.log("newInvalid", newInvalidData);
       if (res.data.data.password){
         toast.error("Password must be atleast 8 characters")
       }else{

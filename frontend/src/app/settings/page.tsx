@@ -114,7 +114,6 @@ const PersonalInformationComponent: FC<PersonalInformationComponentProps> = ({
   });
 
   useEffect(() => {
-    console.log("dataaaa usr", user)
     if (user)
       setData({ username: user?.username, email: user?.email })
   }, [user])
@@ -144,10 +143,8 @@ const PersonalInformationComponent: FC<PersonalInformationComponentProps> = ({
     if (formUsername !== username) {
       putData.username = formUsername;
     }
-    console.log("put data", putData);
     const res = await updateProfile(putData);
     if (res.status === 202) {
-      console.log("res.data", res.data)
       setUser(res.data);
       toast.success("Updated successfully");
     } else {
@@ -161,7 +158,6 @@ const PersonalInformationComponent: FC<PersonalInformationComponentProps> = ({
         }
       }
       toast.error("Update refused!..");
-      console.log("errrrrrrr88888", res);
     }
   };
 
@@ -238,24 +234,19 @@ const AuthorizationComponent = () => {
       toast.error("Both fields are required to update password!");
       return;
     }
-    console.log(old_password, new_password);
     const putData = {
       old_password: old_password,
       new_password: new_password,
     };
     const res = await updatePassword(putData);
-    console.log("rssss", res)
     if (res.status === 202) {
       toast.success("Updated successfully");
-      console.log("sucxxxx", res);
     } else if (res.status === 400) {
       if (res?.data?.new_password) {
         toast.error(res?.data?.new_password[0]);
-        console.log("errrrrrrr88888", res?.data?.new_password[0]);
       }
       else if (res?.data?.old_password) {
         toast.error(res?.data?.old_password[0]);
-        console.log("errrrrrrr88888", res?.data?.old_password[0]);
       }
       else toast.error("Error!!..")
     }
@@ -324,7 +315,6 @@ const AvatarComponent: FC<PersonalInformationComponentProps> = ({
       if (res.status !== 200) {
         toast.error("oops error!..")
       }
-      console.log("token", res)
 
       try {
         // Send image to Next.js server
@@ -377,9 +367,6 @@ export default function Page() {
   const router = useRouter();
   const { user, setUser } = useContext(UserContext);
   const [displayModal, setDisplayModal] = useState(false);
-  console.log("rendred home page");
-
-
 
   return (
     <div className="text-center py-16 px-4 md:px-0 text-black flex flex-col items-center gap-6 max-w-[800px] mx-auto">

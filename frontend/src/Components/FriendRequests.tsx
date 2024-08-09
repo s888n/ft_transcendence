@@ -17,9 +17,7 @@ const FriendRequestPopup: FC<{ setDisplayFriendRequestPopup: (display: boolean) 
 
         const fetchFriendRequests = async () => {
             try {
-                console.log("fetching friend requests")
                 const res = await getFriendRequests();
-                console.log("friendRequests", res.data);
                 setFriendRequests(res.data);
             } catch (error) {
                 console.error('Error fetching friend requests:', error);

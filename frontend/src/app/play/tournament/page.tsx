@@ -39,12 +39,9 @@ export default function Page({ searchParams }: any) {
 	const router = useRouter();
 	const id = searchParams.id;
 	if (!id) router.push("/play");
-	console.log(id);
 	const ws = useRef<WebSocket>(null) as React.MutableRefObject<WebSocket>;
 	const [details, setDetails] = useState<any>({});
-	console.log(details);
 	const [currMatch, setCurrMatch] = useState<any>({});
-	console.log("current match", currMatch);
 	const [score1, setScore1] = useState(0);
 	const [score2, setScore2] = useState(0);
 	const [gameState, setGameState] = useState("waiting"); //waiting, playing, paused, gameover
@@ -60,18 +57,15 @@ export default function Page({ searchParams }: any) {
 			`${process.env.NEXT_PUBLIC_SOCKET_ENDPOINT}tournament/${id}/?token=${accessToken}`
 		);
 		ws.current.onopen = () => {
-			console.log("WebSocket Opened");
 		};
 		ws.current.onmessage = (event:any) => {
 			const data = JSON.parse(event.data);
-			console.log(data);
 			if (data.type === "tournament_error") router.push("/play");
 			if (data.type === "tournament_info") setDetails(data.info);
 			if (data.type === "tournament_match") setCurrMatch(data.match);
 			if (data.type === "game_state") update(data);
 		};
 		ws.current.onclose = () => {
-			console.log("WebSocket Closed");
 		};
 		return () => {
 			ws.current.close();
@@ -89,7 +83,6 @@ export default function Page({ searchParams }: any) {
 		if (data.score2 !== score2) setScore2(data.score.player2);
 	}
 	function update(data: any) {
-		console.log(data);
 		if (data.state === "waiting") {
 			gameState !== "waiting" && setGameState("waiting");
 		}
@@ -101,7 +94,6 @@ export default function Page({ searchParams }: any) {
 			updateGame(data);
 		}
 		if (data.state === "gameover") {
-			// console.log(data);
 			gameState !== "gameover" && setGameState("gameover");
 			setWinner(data.winner);
 		}
@@ -262,7 +254,6 @@ interface SocketProps {
 function Socket({ socket, type}: SocketProps) {
 	const [ subscribeKeys, getKeys ] = useKeyboardControls()
 	useEffect(() => {
-		console.log(socket.current.readyState === WebSocket.OPEN ? "open" : "closed");
 		const handleKeyDown = (e: KeyboardEvent) => {
 
 				if (e.code === "Space") {

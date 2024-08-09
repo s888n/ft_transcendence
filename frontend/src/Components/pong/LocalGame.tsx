@@ -51,14 +51,12 @@ export default function LocalGame({
     const updateGameState = (state: string)  => setGameState(state);
     
 	function handleGameover(data: any) {
-		console.log(data);
 		setWinner(data.winner);
 		setScore1(data.score.player1);
 		setScore2(data.score.player2);
 	}
 
 	function update(data: any) {
-		// console.log(data);
 		if (data.state === "waiting") {
 			gameState !== "waiting" && updateGameState("waiting");
 		}
@@ -78,10 +76,8 @@ export default function LocalGame({
 		const accessToken = localStorage.getItem("user_token");
 			socket.current = new WebSocket(`${process.env.NEXT_PUBLIC_SOCKET_ENDPOINT}localgame/?token=${accessToken}`);
 		socket.current.onopen = () => {
-			console.log("Connected");
 			}
 		socket.current.onclose = () => {
-            console.log("Disconnected");
             }
 
 		if (!socket.current) return;

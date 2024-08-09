@@ -7,8 +7,6 @@ const getFriends = async () => {
     const response = await getAPI("get_friends")
         .then((res: any) => {
             if (res.status === 200) {
-                // console.log(res.data);
-                // return res.data?.friends.map((friend: any) => friend.username);
                 return res.data?.friends.filter((friend: any) => friend.is_online === true);
             }
         });
@@ -25,11 +23,9 @@ export default function FriendsModal({
     setShowFriendsModal
 }: FriendsModalProps) {
     const [friends, setFriends] = useState<UserType[] | undefined>([]);
-    console.log(friends);
     useEffect(() => {
         getFriends().then((data) => {
             setFriends(data);
-            // console.log(data);
         });
     }, []);
     const sendInvite = async (sender: string, receiver: string) => {

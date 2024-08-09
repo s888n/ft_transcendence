@@ -24,7 +24,5 @@ export default function handler(
     })
   ]);
   const cookies = cookie.parse(req.headers.cookie ?? '');
-  console.log("coooks in /api/profile", cookies)
-
   res.status(200).json({ message: 'Hello from Next.js!' })
 }

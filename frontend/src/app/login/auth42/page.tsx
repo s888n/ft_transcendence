@@ -12,9 +12,7 @@ export default function Home() {
 
   const login42IntraCall = async () => {
     const res = await login42Intra();
-    console.log("RES111", res)
     if (res?.status === 201) {
-      console.log("RESSSS", res)
       const accessToken = res.data.access;
       const refreshToken = res.data.refresh;
       const decodedToken: any = jwt.decode(accessToken);

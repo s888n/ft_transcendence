@@ -16,11 +16,9 @@ export default async function handler(
         body: requestBody,
         credentials: "include"
     })
-    console.log("resssss", requestBody)
 
     if (response.status === 201) {
         const responseData = await response.json();
-        console.log("responsedataaa", responseData)
         const isProduction = process.env.NODE_ENV === 'production';
 
         res.setHeader('Set-Cookie', [

@@ -15,7 +15,6 @@ export default async function handler(
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${accessToken || ""}`,
     }
-    // console.log("bearer", cookies, accessToken, requestBody)
     if (req.method === "GET"){
         res.status(200).json({ token: accessToken })
     }

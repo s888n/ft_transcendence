@@ -1,7 +1,10 @@
 services:
   next:
     container_name: next
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+
     volumes:
       - ./frontend:/usr/src/app
       - node_modules:/usr/src/app/node_modules

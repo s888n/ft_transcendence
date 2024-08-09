@@ -95,7 +95,6 @@ function Friends() {
 	};
 	useEffect(() => {
 		fetchFriends();
-		console.log("friends: ", friends);
 	}, []);
 	return (
 		<div className="w-full h-full rounded-lg flow-root">

@@ -6,7 +6,6 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<any>
 ) {
-    // console.log("resssss", req)
     const requestBody = JSON.stringify(req.body);
     const response = await fetch(`${process.env.BACKEND_ENDPOINT}/apiback/intra`, {
         headers: {
@@ -19,7 +18,6 @@ export default async function handler(
     })
     if (response.status === 201) {
         const responseData = await response.json();
-        console.log(response, responseData)
         const isProduction = process.env.NODE_ENV === 'production';
 
         res.setHeader('Set-Cookie', [

@@ -33,9 +33,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   })
 
   useEffect(() => {
-    console.log("ddddaaatda", data)
     if (data?.data) {
-      console.log(params.slug)
       const winsMatches = data?.data.filter((match: any) => {
         if (match.winner?.username === params.slug) return match
       })
@@ -45,7 +43,6 @@ export default function Page({ params }: { params: { slug: string } }) {
         looses: data?.data.length - winsMatches.length,
       }
       setStats(actualStats)
-      console.log("statsssss", actualStats)
     }
   }, [data])
 
@@ -58,7 +55,6 @@ export default function Page({ params }: { params: { slug: string } }) {
         toast.error(`User ${params.slug} not found!`);
         router.push("/home");
       }
-      console.log("resssssUserProfile", res);
     }
   };
   useEffect(() => {
@@ -70,7 +66,6 @@ export default function Page({ params }: { params: { slug: string } }) {
       const res = await sendRequest(searchedUser?.username);
       if (res.status === 201)
         setSearchedUser({ ...searchedUser, request_sent: true });
-      console.log("Send request", res);
     }
   };
 
@@ -79,7 +74,6 @@ export default function Page({ params }: { params: { slug: string } }) {
       const res = await cancelRequest(searchedUser?.username);
       if (res.status === 201)
         setSearchedUser({ ...searchedUser, request_sent: false });
-      console.log("cancel request", res);
     }
   };
 
@@ -88,7 +82,6 @@ export default function Page({ params }: { params: { slug: string } }) {
       const res = await rejectRequest(searchedUser?.username);
       if (res.status === 201)
         setSearchedUser({ ...searchedUser, request_received: false });
-      console.log("reject request", res);
     }
   };
 
@@ -101,7 +94,6 @@ export default function Page({ params }: { params: { slug: string } }) {
           is_friend: true,
           request_received: false,
         });
-      console.log("Accepted request", res);
     }
   };
 
@@ -115,7 +107,6 @@ export default function Page({ params }: { params: { slug: string } }) {
           request_received: false,
           request_sent: false,
         });
-      console.log("Accepted request", res);
     }
   };
 
@@ -130,7 +121,6 @@ export default function Page({ params }: { params: { slug: string } }) {
           request_sent: false,
           blocked_by_you: true
         });
-      console.log("Accepted request", res);
     }
   }
 
@@ -145,7 +135,6 @@ export default function Page({ params }: { params: { slug: string } }) {
           request_sent: false,
           blocked_by_you: false
         });
-      console.log("Accepted request", res);
     }
   }
 
