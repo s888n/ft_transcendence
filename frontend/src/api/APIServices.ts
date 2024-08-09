@@ -53,6 +53,7 @@ axios.interceptors.response.use(
         return config;
     },
     async (error) => {
+        console.log("frrrree", error.response)
         if (error.response.status === 401){
             console.error('Unautherized:');
             await getAPI2("/logout");

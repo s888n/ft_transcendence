@@ -218,7 +218,7 @@ def update_avatar(request):
             file_name = file_obj.name
             file_extension = os.path.splitext(file_name)[1]
             file_name = (
-                generate_random_avatar_name(10, "1", file_extension) + file_extension
+                generate_random_avatar_name(10, file_extension) + file_extension
              )
             filename = os.path.join(upload_dir, file_name)
             print(")FILEEEE NAEMEEEE", file_name)

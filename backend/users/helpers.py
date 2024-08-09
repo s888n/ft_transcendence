@@ -34,18 +34,16 @@ def generate_random_email(domain="randomemail.com", intraEmail=""):
         if not User.objects.filter(email=email).exists():
             return email
         
-def generate_random_avatar_name(length=10, avatar_name='1', file_extension=''):
+def generate_random_avatar_name(length=10, file_extension=''):
     """
     Generate a random email that is not already in the User model.
     """
-    if not User.objects.filter(avatar=avatar_name+file_extension).exists():
-            return avatar_name
     while True:
         # Generate a random email
         avatar = ''.join(random.choices(string.digits, k=length))
         
         # Check if the avatar is already in use
-        if not User.objects.filter(avatar=avatar_name).exists():
+        if not User.objects.filter(avatar=avatar+file_extension).exists():
             return avatar
         
 class CustomJWTAuthentication(authentication.BaseAuthentication):
