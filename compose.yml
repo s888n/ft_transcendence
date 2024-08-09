@@ -9,8 +9,6 @@ services:
       - transcendence
     env_file:
       - .env
-    # ports:
-    #   - "3000:3000"
     depends_on:
       - django
 
@@ -23,8 +21,6 @@ services:
       - transcendence
     env_file:
       - .env
-    # ports:
-    #   - "8000:8000"
     depends_on:
       - db
       - redis
@@ -36,6 +32,10 @@ services:
       - transcendence
     ports:
       - "4000:4000"
+    environment:
+      - SERVER_NAME=${SERVER_NAME}
+    volumes:
+      - ./nginx/nginx.conf.template:/etc/nginx/templates/nginx.conf.template
     depends_on:
       - next
       - django
