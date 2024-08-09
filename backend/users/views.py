@@ -96,6 +96,8 @@ def signup(request):
                 "username": user.username,
                 "nickname": user.nickname,
                 "email": user.email,
+                "avatar": user.avatar or "dafault.png",
+                "id": user.id
             }
         }
 
@@ -208,7 +210,7 @@ def update_avatar(request):
             os.makedirs(upload_dir, exist_ok=True)
             user = request.user
             print(user.avatar, request.user)
-            if user.avatar != "":
+            if user.avatar != "" and user.avatar != "default.png":
                 old_avatar = os.path.join(upload_dir, user.avatar)
                 if os.path.exists(old_avatar):
                     os.remove(old_avatar)

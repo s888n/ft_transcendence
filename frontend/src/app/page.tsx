@@ -16,6 +16,7 @@ import { getAPI } from "@/api/APIServices";
 import { useEffect, useState } from "react";
 import { getFriends } from "@/api/chat";
 import Link from "next/link";
+import { getProfileData } from "@/api/profile";
 
 export default function Page() {
 	const { user } = useContext(UserContext);
@@ -38,26 +39,26 @@ function Loader() {
 				<div className="w-8 h-8 bg-myred rounded-full absolute top-0 left-0 animate-pulse"></div>
 			</div>
 		</div>
-		);
+	);
 }
 function Scene({ name }: { name: string }) {
 	return (
 		<div className="col-span-2 rounded-lg">
 			<Suspense fallback={<Loader />}>
-			<Canvas shadows camera={{ position: [4, 2.5, 15], fov: 35 }}>
-				<Float>
-					<Greeting name={name} />
-					<Arcade />
-				</Float>
-				<ContactShadows
-					frames={1}
-					position={[0, -3, 0]}
-					opacity={0.5}
-					blur={1}
-				/>
-				<OrbitControls />
-				<Environment preset="sunset" />
-			</Canvas>
+				<Canvas shadows camera={{ position: [4, 2.5, 15], fov: 35 }}>
+					<Float>
+						<Greeting name={name} />
+						<Arcade />
+					</Float>
+					<ContactShadows
+						frames={1}
+						position={[0, -3, 0]}
+						opacity={0.5}
+						blur={1}
+					/>
+					<OrbitControls />
+					<Environment preset="sunset" />
+				</Canvas>
 			</Suspense>
 		</div>
 	);
@@ -68,7 +69,7 @@ function SidePanel() {
 	return (
 		<div className="rounded-lg grid grid-rows-2 gap-4">
 			<Friends />
-			<Matches  />
+			<Matches />
 		</div>
 	);
 }
@@ -81,20 +82,20 @@ type FriendType = {
 };
 function Friends() {
 	const [friends, setFriends] = useState<FriendType[]>([]);
-		const fetchFriends = async () => {
+	const fetchFriends = async () => {
 		try {
 			const res = await getFriends();
 			if (res.status !== 200) {
 				throw new Error("Failed to fetch data");
 			}
-			setFriends(res.data.friends); 
+			setFriends(res.data.friends);
 		} catch (error) {
 			console.error("Error fetching friends:", error);
 		}
 	};
 	useEffect(() => {
 		fetchFriends();
-		console.log("friends: ",friends);
+		console.log("friends: ", friends);
 	}, []);
 	return (
 		<div className="w-full h-full rounded-lg flow-root">
@@ -139,7 +140,7 @@ function Friends() {
 										className="inline-flex items-center justify-center w-8 h-8 text-gray-400 rounded-full hover:text-gray-500"
 									>
 										View Profile
-								</Link>
+									</Link>
 								</div>
 							</div>
 						</li>
@@ -195,10 +196,10 @@ function Matches() {
 							)}
 							{matches.map((match, index) => (
 								<tr className="border-b border-blue-gray-200 text-center " key={index}>
-								<td className={`py-3 px-4 ${match.player1 === match.winner ? "text-green-500" : "text-red-500"}`}>{match.player1}</td>
-								<td className={`py-3 px-4 ${match.player2 === match.winner ? "text-green-500" : "text-red-500"}`}>{match.player2}</td>
-								<td className="py-3 px-4 ">{match.score1} - { match.score2}</td>
-								<td className="py-3 px-4">{match.mode}</td>
+									<td className={`py-3 px-4 ${match.player1 === match.winner ? "text-green-500" : "text-red-500"}`}>{match.player1}</td>
+									<td className={`py-3 px-4 ${match.player2 === match.winner ? "text-green-500" : "text-red-500"}`}>{match.player2}</td>
+									<td className="py-3 px-4 ">{match.score1} - {match.score2}</td>
+									<td className="py-3 px-4">{match.mode}</td>
 								</tr>
 							))}
 						</tbody>

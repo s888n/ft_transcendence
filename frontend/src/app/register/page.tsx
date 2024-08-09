@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { IoEye } from "react-icons/io5";
 import { FormEvent } from "react";
 import { register } from "@/api/register";
@@ -10,6 +10,7 @@ import Link from "next/link";
 import Modal from "./Modal";
 import { useRouter } from "next/navigation";
 import logo from "../../assets/pingpongpic.png";
+import UserContext from "@/contexts/UserContext";
 
 export default function Page() {
   const [displayPassword, setDisplayPassword] = useState(false);
@@ -20,14 +21,7 @@ export default function Page() {
   });
   const [displayNicknameModal, setDisplayNicknameModal] = useState(false);
   const router = useRouter();
-
-  useEffect(() => {
-    // const userToken = localStorage.getItem("user_token");
-
-    // if (userToken) {
-    //   router.push("/home");
-    // }
-  }, []);
+  const {setUser} = useContext(UserContext)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -60,8 +54,9 @@ export default function Page() {
         decodedToken?.user,
         typeof decodedToken
       );
+      setUser(decodedToken.user)
       if (decodedToken?.user.nickname === "") setDisplayNicknameModal(true);
-      router.push("/home");
+      router.push("/");
 
     } else {
       console.log("toassssst", res);

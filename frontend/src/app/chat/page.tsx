@@ -37,23 +37,6 @@ export default function Page() {
     const [activeTab, setActiveTab] = useState('users');
     const router = useRouter();
     const { sendMessage, onMessage, sendReadEvent } = useSocket();
-    
-    
-
-
-    const fetchProfile = async () => {
-      const res = await getProfileData();
-      if (res.status === 200) {
-        setUser(res.data);
-      }
-    };
- 
-  
-    useEffect(() => {
-      if (user === undefined) {
-        fetchProfile();
-      }
-    }, [user]);
   
   
     const fetchRooms = async () => {

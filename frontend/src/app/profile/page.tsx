@@ -19,21 +19,6 @@ export default function Page() {
     wins: 69,
     looses: 69,
   })
-
-  const fetchProfile = async () => {
-    if (user === undefined) {
-      const res = await getProfileData();
-      if (res.status === 200) {
-        setUser(res.data);
-      }
-      console.log("PROFILEDATA", res);
-    }
-  };
-  useEffect(() => {
-    if (user === undefined) {
-      fetchProfile();
-    }
-  }, []);
   useEffect(() => {
     console.log("ddddaaatda", data)
     if (data?.data) {

@@ -92,7 +92,7 @@ const ProfilePopup: FC<any> = ({ setDisplayProfilePopup }) => {
 			</div>
 			<div className="w-full h-[1px] bg-gray-100"></div>
 			<Link
-				href={`/home`}
+				href={`/settings`}
 				className="cursor-pointer p-4 flex items-center gap-4 text-gray-600 hover:bg-mygray"
 			>
 				<IoSettingsOutline className="w-6 h-6" />
@@ -370,24 +370,9 @@ const Navbar = () => {
 	const [friend_requestPopup, setFriendRequestPopup] = useState(false);
 
 	useEffect(() => {
-		const accessToken = localStorage.getItem("user_token");
-		console.log("USEEFFEC");
-		if (accessToken) {
-			const username = localStorage.getItem("user_name");
-			const nickname = localStorage.getItem("user_nickname");
-			const email = localStorage.getItem("user_email");
-			const avatar = localStorage.getItem("user_avatar");
-			const id = localStorage.getItem("user_id");
-			setUser({
-				id: id ? parseInt(id) : 0,
-				username: username ? username : "",
-				email: email ? email : "",
-				nickname: nickname ? nickname : "",
-				avatar: avatar ? avatar : "",
-				is_online: false,
-			});
-		}
-	}, []);
+
+		console.log("usrrrrr", user)
+	}, [user])
 
 	return (
 		<>

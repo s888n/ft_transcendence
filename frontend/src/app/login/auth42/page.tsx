@@ -21,14 +21,14 @@ export default function Home() {
       localStorage.setItem("user_token", accessToken);
       localStorage.setItem("token_expiration", decodedToken.exp);
       // localStorage.setItem("refresh_token", refreshToken);
-      router.push("/home");
+      router.push("/");
     } else if (res?.status === 209) {
       toast.error("Ooops, Conflict with other user...")
-      router.push("/home");
+      router.push("/login");
     }
     else {
       toast.error("Ooops, Failed to login using Intra, return and try again...")
-      router.push("/home");
+      router.push("/login");
     }
   }
   useEffect(() => {

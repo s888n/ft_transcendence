@@ -62,7 +62,7 @@ export default function Page() {
 			console.log("uressss", decodedToken.user);
 			setUser(decodedToken.user);
 
-			router.push("/home");
+			router.push("/");
 		} else {
 			console.log("toassssst");
 			setLogError(true);
