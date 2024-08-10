@@ -331,18 +331,6 @@ const NotificationComponent = () => {
 					closeOnClick: true,
 					pauseOnFocusLoss: true,
 				});
-				// router.push('/home');
-			}
-			if (data.type === "friend_request") {
-				toast(FriendRequestNotification(data.sender), {
-					theme: "colored",
-					pauseOnHover: true,
-					closeOnClick: true,
-					pauseOnFocusLoss: true,
-					draggable: true,
-					transition: Flip,
-					autoClose: false,
-				});
 			}
 		};
 		return () => {

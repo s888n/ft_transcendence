@@ -423,18 +423,6 @@ def send_request(request):
         sender=sender, receiver=receiver
     )
     channel_layer = get_channel_layer()
-    try:
-        async_to_sync(channel_layer.group_send)(
-            f"notifications_{receiver.username}",
-            {
-                "type": "friend_request",
-                "sender": sender.username,
-                "receiver": receiver.username,
-            },
-        )
-    except Exception as e:
-        print("faliure", e)
-        pass
     new_friend_request.is_active = True
     new_friend_request.save()
 

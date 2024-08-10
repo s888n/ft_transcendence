@@ -360,7 +360,7 @@ class GameEngine:
         self.height = 12
         self.half_width = self.width / 2
         self.half_height = self.height / 2
-        self.win_score = 2
+        self.win_score = 5
         self.score = [score1, score2]
         self.ball = Ball()
         self.paddle1 = Paddle(0, 6)
