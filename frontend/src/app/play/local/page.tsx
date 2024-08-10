@@ -16,6 +16,7 @@ const Rules = [
 	"- Pause: P",
 	"- First to 5 points wins",
 	"- Use the mouse to adjust your view",
+	'- You can change your name before starting the game',
 ];
 const map = [
 	{ name: "moveUP1", keys: ["ArrowUp", "ArrowRight"] },
@@ -24,20 +25,66 @@ const map = [
 	{ name: "moveDOWN2", keys: ["KeyS", "KeyD"] },
 ];
 
+
+interface LocalPlayersProps {
+	player1: string;
+	player2: string;
+	setPlayer1: (player1: string) => void;
+	setPlayer2: (player2: string) => void;
+	avatar: string;
+	gameState: string;
+}
+function LocalPlayers({ player1, player2, setPlayer1, setPlayer2,avatar,gameState }: LocalPlayersProps) {
+	return (
+		<div className="flex justify-between w-full text-black text-2xl">
+			<div className="flex flex-col items-center ">
+				<input
+					className="rounded-lg p-2 text-center"
+					value={player1}
+					onChange={(e) => setPlayer1(e.target.value)}
+					disabled={gameState !== "waiting"}
+				/>
+				<img
+					src={avatar}
+					alt={`${player1}'s avatar`}
+					className="w-20 h-20 "
+				/>
+			</div>
+			<div className="flex items-center">
+				<span className=" text-bald">VS</span>
+			</div>
+			<div className="flex flex-col items-center justify-center">
+				<input
+					className="rounded-lg p-2 text-center"
+					value={player2}
+					onChange={(e) => setPlayer2(e.target.value)}
+					disabled={gameState !== "waiting"}
+				/>
+				<img
+					src={avatar}
+					alt={`${player2}'s avatar`}
+					className="w-20 h-20 "
+				/>
+			</div>
+		</div>
+	);
+}
 export default function Page() {
-	const[player1, setPlayer1] = useState("Salah");
-	const[player2, setPlayer2] = useState("Max");
+	const[player1, setPlayer1] = useState("Player1");
+	const[player2, setPlayer2] = useState("Player2");
 	const [winner, setWinner] = useState("");
 	const { user } = useContext(UserContext);
 	const [gameState, setGameState] = useState("waiting");
 	const playerImage = `${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + user?.avatar;
 	return (
 		<div className="fixed h-full w-full flex flex-col  justify-center items-center p-4">
-			<Players
-				player1Name={player1}
-				player2Name={player2}
-				player1Avatar={playerImage}
-				player2Avatar={playerImage}
+			<LocalPlayers
+				player1={player1}
+				player2={player2}
+				setPlayer1={setPlayer1}
+				setPlayer2={setPlayer2}
+				avatar={playerImage}
+				gameState={gameState}
 			/>
 			<div className="relative w-full h-1/2  rounded  ">
 				{gameState === "waiting" && <Ready rules={Rules} />}

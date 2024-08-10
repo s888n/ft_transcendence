@@ -34,7 +34,6 @@ class LocalGameManager:
     def receive(self, message):
         event = message.get("event")
         mode = message.get("type")
-        print("event", message)
 
         if event == "START":
             self.player1 = message.get("player1")
