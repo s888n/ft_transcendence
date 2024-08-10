@@ -41,7 +41,6 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         self.tournament = await database_sync_to_async(self.get_tournament)(
             self.tournament_id
         )
-        print(self.tournament)
         await self.accept()
         if self.tournament == None or self.user.id != self.tournament["creator"]:
             await self.send_tournament_error()
@@ -56,8 +55,6 @@ class TournamentConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         data = json.loads(text_data)
-        print("received data: ", data)
-        print ("game manager: ", self.game_manager)
         if self.game_manager:
             self.game_manager.receive(data)
 
@@ -128,10 +125,7 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         return None
 
     def update_tournament(self, result):
-        print("updating tournament")
-        # self.tournament = self.get_tournament(self.tournament_id)
         next_round_match = self.get_next_round_match()
-        print("next round match: ", next_round_match)
         if next_round_match:
             match = TournamentMatch.objects.get(id=next_round_match["id"])
             if next_round_match["player1"] == None:
@@ -153,7 +147,6 @@ class TournamentConsumer(AsyncWebsocketConsumer):
         while not self.tournament["finished"]:
             match = self.get_next_match()
             if match == None:
-                print("No match found")
                 await self.send_tournament_results()
                 await self.close()
                 return
@@ -203,10 +196,8 @@ class TournamentMatchManager:
         self.round = round
         self.game = Game(player1, player2, score1, score2, finished, winner)
         self.paused = False
-        print("Match manager created")
 
     def receive(self, message):
-        print("received message: ", message)
         event = message.get("event")
 
         if event == "START":
@@ -262,7 +253,6 @@ class TournamentMatchManager:
             match.score1 = self.game.score[0]
             match.score2 = self.game.score[1]
             if self.game.state == "gameover":
-                print("Match over")
                 match.winner = self.game.winner
                 match.finished = True
             match.save()
@@ -305,9 +295,7 @@ class Game:
         self.reset(1 if id1 == 0 else -1)
         if self.score[id1] >= self.win_score:
             self.reset(0)
-            print("update winner")
             self.winner = self.player1 if id1 == 0 else self.player2
-            print("winner: ", self.winner)
             self.state = "gameover"
 
     def paddles_wall_collision(self):
@@ -348,7 +336,6 @@ class Game:
             self.paddle2.move(direction)
 
     def start(self):
-        print("starting game")
         self.state = "playing"
 
     def update(self):

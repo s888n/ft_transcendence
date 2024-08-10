@@ -20,7 +20,7 @@ const Rules = [
 const map = [
 	{ name: "moveUP1", keys: ["ArrowUp", "ArrowRight"] },
 	{ name: "moveDOWN1", keys: ["ArrowDown", "ArrowLeft"] },
-	{ name: "moveUP2", keys: ["KeyW", "KeyS"] },
+	{ name: "moveUP2", keys: ["KeyW", "KeyA"] },
 	{ name: "moveDOWN2", keys: ["KeyS", "KeyD"] },
 ];
 

@@ -75,7 +75,6 @@ def create_tournament(request):
     shuffle(players_names)
 
     for i in range(0, number_of_players - 1, 2):
-        print(players_names[i], players_names[i + 1])
         match = TournamentMatch.objects.create(
             player1=players_names[i],
             player2=players_names[i + 1],
@@ -112,7 +111,6 @@ def get_tournament(request, pk):
 def next_match(request, pk):
     tournament = get_object_or_404(Tournament, id=pk)
     user = request.user
-    # print(tournament.creator, user)
     if tournament.creator != user:
         return Response(
             {"error": "You are not the creator of this tournament"},
@@ -136,7 +134,6 @@ def next_match(request, pk):
         match.save()
         next_match = get_next_match(tournament)
         if next_match is None:
-            print("the match is none")
             tournament.finished = True
             tournament.save()
             return Response({"message": "Tournament finished"}, status=status.HTTP_200_OK)

@@ -69,7 +69,7 @@ def get_all_matches(request):
                         "score2": match["score2"],
                         "winner": match["winner"],
                         "mode": "tournament",
-                        # "created_at": tournament["created"],
+                        "created_at": tournament["created"],
                         "finished": match["finished"],
                     }
                 )
@@ -83,7 +83,7 @@ def get_all_matches(request):
                     "score2": match["player2_score"],
                     "winner": match["winner"],
                     "mode": match["mode"],
-                    # "created_at": match["created_at"],
+                    "created_at": match["create_at"],
                     "finished": match["finished"],
                 }
             )
@@ -97,9 +97,11 @@ def get_all_matches(request):
                     "score2": match["player2_score"],
                     "winner": match["winner"]["username"],
                     "mode": "online",
-                    # "created_at": match["created_at"],
+                    "created_at": match["create_at"],
                     "finished": match["finished"],
                 }
             )
+    
+    all_matches = sorted(all_matches, key=lambda x: x["created_at"], reverse=True)
     return Response(all_matches)
 
