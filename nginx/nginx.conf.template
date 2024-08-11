@@ -1,7 +1,7 @@
 server{
 
-    listen 4000 ssl;
-    listen [::]:4000 ssl;
+    listen 443 ssl;
+    listen [::]:443 ssl;
     server_name ${SERVER_NAME};
     ssl_certificate /etc/ssl/certs/ss.crt;
     ssl_certificate_key /etc/ssl/private/ss.key;
