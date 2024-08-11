@@ -13,9 +13,9 @@ export default async function handler(
     const postData = JSON.stringify({
         'grant_type': 'authorization_code',
         'client_id': "u-s4t2ud-9267b3fde4ad5d8140083b81f05e9fc74057eee1d70a67f1c0cd53be79342610",
-        'client_secret': "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",
+        'client_secret': process.env.SECRET_42,
         'code': code,
-        'redirect_uri': 'http://127.0.0.1:3000/login/auth42',
+        'redirect_uri': 'https://10.13.10.6/login/auth42',
     })
 
     if (req.method === "GET") {
