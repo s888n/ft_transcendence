@@ -6,7 +6,6 @@ export default async function handler(
     req: NextApiRequest,
     res: NextApiResponse<any>
 ) {
-    const isProduction = process.env.NODE_ENV === 'production';
     res.setHeader('Set-Cookie', [
         cookie.serialize('access', '', {
             maxAge: -1,

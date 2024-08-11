@@ -40,27 +40,6 @@ class RegisterUserSerializer(serializers.ModelSerializer):
     class Meta(object):
         model = User
         fields = ["id", "username", "email", "password"]
-        
-    def validate(self, data):
-        user = User(**data)
-        
-        password = data.get('password')
-        print("|" + password + "|")
-        print("|" + password.strip() + "|")
-        errors = dict() 
-        if (password != password.strip()):
-            errors['password'] = list("cant have spaces in front or back")
-            raise serializers.ValidationError(errors)
-        try:
-            validators.validate_password(password=password, user=user)
-        
-        except exceptions.ValidationError as e:
-            errors['password'] = list(e.messages)
-        
-        if errors:
-            raise serializers.ValidationError(errors)
-         
-        return super(RegisterUserSerializer, self).validate(data)
     
     
 class UserSerializer(serializers.ModelSerializer):
@@ -70,7 +49,6 @@ class UserSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         if "username" in validated_data:
-            print("entered")
             doesUsernameExist = (
                 User.objects.filter(
                     username=validated_data.get("username", instance.username)
@@ -105,15 +83,6 @@ class UserSerializer(serializers.ModelSerializer):
                     {"nickname": "Nickname already exists."}
                 )
             instance.nickname = validated_data.get("nickname", instance.nickname)
-        if "password" in validated_data:
-            doesEmailExist = (
-                User.objects.filter(email=validated_data.get("email", instance.email))
-                .exclude(id=instance.id)
-                .first()
-            )
-            if doesEmailExist:
-                raise serializers.ValidationError({"email": "Email already exists."})
-            instance.email = validated_data.get("email", instance.email)
         instance.save()
         return instance
 
@@ -129,46 +98,6 @@ class User42Serializer(serializers.ModelSerializer):
             "first_username",
             "first_email",
         ]
-
-    def update(self, instance, validated_data):
-        print("THISSSS RUNNNNSSSSS")
-        if "username" in validated_data:
-            doesUsernameExist = (
-                User.objects.filter(
-                    username=validated_data.get("username", instance.username)
-                )
-                .exclude(id=instance.id)
-                .first()
-            )
-            if doesUsernameExist:
-                raise serializers.ValidationError(
-                    {"username": "Username already exists."}
-                )
-            instance.username = validated_data.get("username", instance.username)
-        if "email" in validated_data:
-            doesEmailExist = (
-                User.objects.filter(email=validated_data.get("email", instance.email))
-                .exclude(id=instance.id)
-                .first()
-            )
-            if doesEmailExist:
-                raise serializers.ValidationError({"email": "Email already exists."})
-            instance.email = validated_data.get("email", instance.email)
-        if "nickname" in validated_data:
-            doesNicknameExist = (
-                User.objects.filter(
-                    nickname=validated_data.get("nickname", instance.nickname)
-                )
-                .exclude(id=instance.id)
-                .first()
-            )
-            if doesNicknameExist:
-                raise serializers.ValidationError(
-                    {"nickname": "Nickname already exists."}
-                )
-            instance.nickname = validated_data.get("nickname", instance.nickname)
-        instance.save()
-        return instance
 
     def create(self, validated_data):
         return super().create(validated_data)

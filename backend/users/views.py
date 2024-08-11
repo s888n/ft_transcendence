@@ -61,23 +61,6 @@ from .serializers import (
 )
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .helpers import CustomJWTAuthentication
-
-from .validators import is_strong_assword
-
-
-# @api_view(['POST'])
-# def signup(request):
-#     serializer = UserSerializer(data=request.data)
-#     if serializer.is_valid():
-#         print("ppppppppppppppp")
-#         serializer.save()
-#         user = User.objects.get(username=request.data['username'])
-#         user.set_password(request.data['password'])
-#         user.save()
-#         token, created = Token.objects.get_or_create(user=user)
-#         return Response({'token': token.key, 'user': serializer.data})
-#     return Response(serializer.errors, status=status.HTTP_200_OK)
 
 
 @api_view(["POST"])
@@ -203,14 +186,12 @@ def update_avatar(request):
         serializer = AvatarSerializer(data={"file": file_obj})
         if serializer.is_valid():
             upload_dir = os.path.join(settings.MEDIA_ROOT, "avatars")
-            # Ensure the directory exists; create it if it doesn't
             os.makedirs(upload_dir, exist_ok=True)
             user = request.user
             if user.avatar != "" and user.avatar != "default.png":
                 old_avatar = os.path.join(upload_dir, user.avatar)
                 if os.path.exists(old_avatar):
                     os.remove(old_avatar)
-            # Generate a unique filename
             file_name = file_obj.name
             file_extension = os.path.splitext(file_name)[1]
             file_name = (
@@ -218,14 +199,11 @@ def update_avatar(request):
              )
             filename = os.path.join(upload_dir, file_name)
 
-            # Open the file in write binary mode and save the uploaded data
             with open(filename, "wb") as destination:
                 for chunk in file_obj.chunks():
                     destination.write(chunk)
 
-            # Return a response indicating success
             user.avatar = file_name
-            # print("saved : ", user.avatar)
             user.save()
             return Response(
             {"avatar_updated": True, "file_path": file_name},
@@ -258,15 +236,9 @@ class SearchList(generics.ListAPIView):
     serializer_class = UserGetterSerializer
 
     def get_queryset(self):
-        """
-        This view should return a list of all the purchases for
-        the user as determined by the username portion of the URL.
-        """
         value = self.kwargs["value"]
-        print("value::: ", value)
         user = self.request.user
 
-        # blocked_users = FriendBlock.objects.filter(blocker=user).values_list('blocked', flat=True)
         blocked_by = FriendBlock.objects.filter(blocked=user).values_list(
             "blocker", flat=True
         )
@@ -760,7 +732,7 @@ def intra(request):
 
 
 @api_view(["GET"])
-@authentication_classes([CustomJWTAuthentication])
+@authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def test_token(request):
     return Response("passed!")

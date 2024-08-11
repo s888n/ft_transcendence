@@ -18,8 +18,6 @@ export default async function handler(
     })
     if (response.status === 201) {
         const responseData = await response.json();
-        const isProduction = process.env.NODE_ENV === 'production';
-
         res.setHeader('Set-Cookie', [
             cookie.serialize(
                 'access', responseData.access, {

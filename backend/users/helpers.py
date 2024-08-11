@@ -45,26 +45,3 @@ def generate_random_avatar_name(length=10, file_extension=''):
         # Check if the avatar is already in use
         if not User.objects.filter(avatar=avatar+file_extension).exists():
             return avatar
-        
-class CustomJWTAuthentication(authentication.BaseAuthentication):
-    def authenticate(self, request):
-        session = requests.session()
-        print("coookiess", request, request.COOKIES, session)
-        token = request.COOKIES.get('jwt')
-
-        if not token:
-            return None
-
-        try:
-            payload = jwt.decode(token, settings.SECRET_KEY, algorithms=['HS256'])
-        except jwt.ExpiredSignatureError:
-            raise exceptions.AuthenticationFailed('Token has expired')
-        except jwt.InvalidTokenError:
-            raise exceptions.AuthenticationFailed('Invalid token')
-
-        try:
-            user = User.objects.get(id=payload['user_id'])
-        except User.DoesNotExist:
-            raise exceptions.AuthenticationFailed('User not found')
-
-        return (user, None)

@@ -4,7 +4,6 @@ from .validators import validate_is_image
 from django.core.exceptions import ObjectDoesNotExist
 
 
-# Create your CustomUserManager here.
 class CustomUserManager(BaseUserManager):
     def _create_user(self, email, password, username, **extra_fields):
         if not email:
@@ -47,25 +46,20 @@ class User(AbstractBaseUser,PermissionsMixin):
     # Abstractbaseuser has password, last_login, is_active by default
 
     email = models.EmailField(db_index=True, unique=True, max_length=254)
-    username = models.CharField(max_length=255, unique=True)
-    nickname = models.CharField(max_length=255, blank=True) # remove this !!!!!
-    elo = models.IntegerField(default=1000) # add this !!!!!
-    games_won = models.IntegerField(default=0) # add this !!!!!
-    games_lost = models.IntegerField(default=0) # add this !!!!!
+    username = models.CharField(max_length=10, unique=True)
+    nickname = models.CharField(max_length=10, blank=True)
+    elo = models.IntegerField(default=1000)
+    games_won = models.IntegerField(default=0)
+    games_lost = models.IntegerField(default=0)
     avatar = models.CharField(max_length=255, default="default.png")
     is_online = models.BooleanField(default=False)
     is_from_42 = models.BooleanField(default=False)
     first_username = models.CharField(max_length=255, blank=True)
     first_email = models.EmailField(max_length=255, blank=True)
-    # avatar_image = models.ImageField()
-    # avatar = Avatar(file=)
-    # last_name = models.CharField(max_length=255)
-    # mobile = models.CharField(max_length=50)
-    # address = models.CharField( max_length=250)
 
-    is_staff = models.BooleanField(default=True) # must needed, otherwise you won't be able to loginto django-admin.
-    is_active = models.BooleanField(default=True) # must needed, otherwise you won't be able to loginto django-admin.
-    is_superuser = models.BooleanField(default=False) # this field we inherit from PermissionsMixin.
+    is_staff = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
+    is_superuser = models.BooleanField(default=False)
 
     objects = CustomUserManager()
 
