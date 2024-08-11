@@ -726,7 +726,8 @@ def intra(request):
     if serializer.is_valid():
         user = serializer.save()
         # user = User.objects.get(username=username)
-        user.set_password("RANDDDDPASSSSword")
+        password = User.objects.make_random_password()
+        user.set_password(password)
         user.is_from_42 = True
         user.save()
 
