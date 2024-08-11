@@ -1,0 +1,6 @@
+db.sqlite3
+.venv/
+Dockerfile
+.vscode/
+.DS_Store
+__pycache__/
