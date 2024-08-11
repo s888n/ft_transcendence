@@ -6,7 +6,7 @@ server{
     ssl_certificate /etc/ssl/certs/ss.crt;
     ssl_certificate_key /etc/ssl/private/ss.key;
     ssl_protocols TLSv1.2 TLSv1.3;
-
+    access_log off;
     location /apiback/ {
         proxy_pass http://django:8000;
         proxy_http_version 1.1;
