@@ -12,8 +12,6 @@ OnlineUsers = {}
 class NotificationConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         user = self.scope["user"]
-        # for item in self.scope:
-        #     print(item, self.scope[item])
         username = self.scope["user"].username
         self.group_name = f"notifications_{username}"
         await self.channel_layer.group_add(self.group_name, self.channel_name)

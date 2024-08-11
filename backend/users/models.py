@@ -88,7 +88,6 @@ class FriendsList(models.Model):
             self.save()
             
     def unfriend(self, to_unfriend):
-        print("xoxoxoxox", self, to_unfriend)
         self.remove_friend(to_unfriend)
         """
         Error my be in here
@@ -115,25 +114,20 @@ class BlockedList(models.Model):
                 friend_request = FriendRequest.objects.get(sender=to_block, receiver=self.user)
                 friend_request.reject()
             except ObjectDoesNotExist:
-                print("DIDNOT FINDDDD")
                 pass
             try:
                 friend_request = FriendRequest.objects.get(sender=self.user, receiver=to_block)
                 friend_request.cancel()
             except ObjectDoesNotExist:
-                print("DIDNOT FINDDDD")
                 pass
             friends_list.remove_friend(to_block)
             friends_list, _ = FriendsList.objects.get_or_create(user=to_block)
             friends_list.remove_friend(self.user)
-            print("ADDDDEEEED")
             self.blocked_list.add(to_block)
             self.save()
 
     def deblock_user(self, to_deblock):
-        print("MMMMMMMMM")
         if to_deblock in self.blocked_list.all():
-            print("MMMMMMMMM")
             self.blocked_list.remove(to_deblock)
             self.save()
             
@@ -163,7 +157,6 @@ class FriendRequest(models.Model):
     
     def accept(self):
         senders_friends, _ = FriendsList.objects.get_or_create(user=self.sender)
-        print("RURURURUR")
         receivers_friends, _ = FriendsList.objects.get_or_create(user=self.receiver)
         if senders_friends and receivers_friends:
             senders_friends.add_friend(self.receiver)

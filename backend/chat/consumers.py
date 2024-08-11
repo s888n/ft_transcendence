@@ -13,9 +13,6 @@ from users.models import User
 
 class PrivateChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        print("private chat connect")
-        print(self.scope['user'])
-
         self.sender_id = self.scope['user'].id
 
         self.room_group_name = f'chat_private_{self.sender_id}'
@@ -127,12 +124,9 @@ class PrivateChatConsumer(AsyncWebsocketConsumer):
             formatted_date = new_message.created_at.strftime('%Y-%m-%d %H:%M:%S')
             chatroom.last_message = message
             chatroom.last_send_time = new_message.created_at
-            print(chatroom.last_sender, user)
-            print('unread_count', chatroom.unread_count)
             if chatroom.last_sender == user:
             # Increment the unread count by 1
                 chatroom.unread_count += 1
-                print('unread_count2', chatroom.unread_count)
             else:
                 chatroom.last_sender = user
                 chatroom.unread_count = 1

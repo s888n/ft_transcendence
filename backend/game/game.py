@@ -146,7 +146,6 @@ class OnlineGameManager:
         )
 
     def receive(self, message):
-        # print("event", message)
         event = message.get("event")
         mode = message.get("type")
         username = message.get("username")

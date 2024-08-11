@@ -16,7 +16,6 @@ def send_game_invite(request):
 
     sender = request.data.get("sender")
     receiver = request.data.get("receiver")
-    # print(f"sender: {sender}, receiver: {receiver}")
     channel_layer = get_channel_layer()
     try:
         async_to_sync(channel_layer.group_send)(

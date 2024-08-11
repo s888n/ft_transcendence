@@ -30,7 +30,6 @@ def chat_room_list(request):
 @parser_classes([JSONParser])
 def message_list(request, chatroom_id):
     if request.method == 'GET':
-        print('msg',request)
         messages = Message.objects.filter(chatroom_id=chatroom_id)
         paginator = CustomPagination()
         paginated_messages = paginator.paginate_queryset(messages, request)

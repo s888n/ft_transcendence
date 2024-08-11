@@ -66,10 +66,8 @@ from rest_framework_simplejwt.tokens import RefreshToken
 @api_view(["POST"])
 @parser_classes([JSONParser])
 def signup(request):
-    print("dudududududud", "|" + request.data["password"] + "|")
     serializer = RegisterUserSerializer(data=request.data)
     if serializer.is_valid():
-        print("dudududududud")
         user = serializer.save()
         user.set_password(request.data["password"])
         user.save()
@@ -126,10 +124,8 @@ def login(request):
 @permission_classes([IsAuthenticated])  # Require authentication to access this endpoint
 @parser_classes([JSONParser])
 def profile(request):
-    print("hihihihih", request.method)
     if request.method == "PUT":
         user = request.user  # Get the authenticated user
-        print("bbbbbbbb")
         serializer = UserSerializer(
             user, data=request.data, partial=True
         )  # Use partial=True to allow partial updates
@@ -217,13 +213,11 @@ def update_avatar(request):
 def serve_image(request, image_name):
     image_path = os.path.join(settings.MEDIA_ROOT, "avatars/", image_name)
     if os.path.exists(image_path):
-        print("FOUUUUUUUUUUOND")
         with open(image_path, "rb") as image_file:
             return HttpResponse(
                 image_file.read(), content_type="image/jpeg"
             )  # Adjust content_type based on your image type
     default_path = os.path.join(settings.MEDIA_ROOT, "avatars/", "default.png")
-    print("NOTTTTT FOUUUUUUUUUUOND", default_path)
     with open(default_path, "rb") as image_file:
         return HttpResponse(
             image_file.read(), content_type="image/jpeg"
@@ -252,7 +246,6 @@ class SearchList(generics.ListAPIView):
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def block(request):
-    print("newwwwwwww   --- 1111")
     if "username" not in request.data:
         return Response(
             {"error": "username is requerid!"}, status=status.HTTP_400_BAD_REQUEST
@@ -276,14 +269,12 @@ def block(request):
             blocker=blocker, blocked=to_be_blocked
         )
         serializer = FriendBlockSerializer(new_friend_block)
-        print("newwwwwwww   --- ", new_friend_block)
         blocked_list, _ = BlockedList.objects.get_or_create(user=blocker)
         blocked_list.block_user(to_be_blocked)
         sorted_ids = sorted([blocker.id, to_be_blocked.id])
         ChatRoom.objects.filter(user1=sorted_ids[0], user2=sorted_ids[1]).delete()
         channel_layer = get_channel_layer()
         try:
-            print("to_be_blocked.username", to_be_blocked.username)
             async_to_sync(channel_layer.group_send)(
                 f"notifications_{to_be_blocked.username}",
                 {
@@ -304,7 +295,6 @@ def block(request):
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
 def deblock_user(request):
-    print("DUDUDUDUDUDUDUDU")
     if "username" not in request.data:
         return Response(
             {"error": "username is requerid!"}, status=status.HTTP_400_BAD_REQUEST
@@ -347,7 +337,6 @@ def send_request(request):
         )
     sender = request.user
     receiver = get_object_or_404(User, username=request.data["username"])
-    print("1111111111")
     if BlockedList.objects.filter(user=sender, blocked_list=receiver).exists():
         return Response(
             {"error": "You have blocked the receiver"}, status=status.HTTP_403_FORBIDDEN
@@ -357,7 +346,6 @@ def send_request(request):
             {"error": "You have been blocked by the receiver"},
             status=status.HTTP_403_FORBIDDEN,
         )
-    print("1111111111")
 
     if sender == receiver:
         return Response(
@@ -365,7 +353,6 @@ def send_request(request):
             status=status.HTTP_403_FORBIDDEN,
         )
     try:
-        print("TRYYYYYY")
         request = FriendRequest.objects.get(sender=receiver, receiver=sender)
         if request and request.is_active:
             return Response(
@@ -423,7 +410,6 @@ def cancel_request(request):
             status=status.HTTP_403_FORBIDDEN,
         )
     request = get_object_or_404(FriendRequest, receiver=receiver, sender=sender)
-    print("RRURURURU")
     if request and request.is_active == True:
         request.cancel()
         return Response("Request canceled", status=status.HTTP_201_CREATED)
@@ -451,7 +437,6 @@ def reject_request(request):
             status=status.HTTP_403_FORBIDDEN,
         )
     request = get_object_or_404(FriendRequest, receiver=rejecter, sender=sender)
-    print("RRURURURU")
     if request and request.is_active == True:
         request.reject()
         return Response("Request canceled", status=status.HTTP_201_CREATED)
@@ -478,7 +463,6 @@ def accept_request(request):
             {"error": "You have been blocked by the sender"},
             status=status.HTTP_403_FORBIDDEN,
         )
-    print("SENNNNNNN", request.data["username"], sender, accepter)
     request = get_object_or_404(FriendRequest, receiver=accepter, sender=sender)
     if request and request.is_active:
         request.accept()
@@ -537,10 +521,8 @@ def get_request(request):
 @permission_classes([IsAuthenticated])  # Require authentication to access this endpoint
 @parser_classes([JSONParser])
 def get_user(request):
-    print("RORORORORORO", request.data)
     username = request.GET.get("username")
     if username is None:
-        print("RORORORORORO")
         return Response(
             {"error": "username required"}, status=status.HTTP_400_BAD_REQUEST
         )
@@ -669,11 +651,6 @@ def intra(request):
         }
         refresh.payload.update(token_payload)
         access_token = str(refresh.access_token)
-        print("response", {
-                "message": "Loged in successfully",
-                "access": access_token,
-                "refresh": str(refresh),
-            })
         return Response(
             {
                 "message": "Loged in successfully",
@@ -692,8 +669,6 @@ def intra(request):
         "first_email": email,
         "first_username": username,
     }
-    print(serializer_data["username"])
-    print(serializer_data["email"])
     serializer = User42Serializer(data=serializer_data)
     if serializer.is_valid():
         user = serializer.save()
@@ -714,11 +689,6 @@ def intra(request):
         refresh = RefreshToken.for_user(user)
         refresh.payload.update(token_payload)
         access_token = str(refresh.access_token)
-        print("response", {
-                "message": "Loged in successfully",
-                "access": access_token,
-                "refresh": str(refresh),
-            })
         return Response(
             {
                 "message": "User registered successfully",

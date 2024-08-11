@@ -37,7 +37,6 @@ class LocalGameConsumer(AsyncWebsocketConsumer):
             winner=result["winner"],
             finished=True,
         )
-        print("Match saved")
 
     async def game_loop(self):
         while True:
@@ -109,7 +108,6 @@ class OnlineGameConsumer(AsyncWebsocketConsumer):
         }
 
     async def join_game(self):
-        # print("Joining game")
         if len(self.rooms[self.room]["players"]) > 1:
             await self.send(text_data=json.dumps({"error": "Room is full"}))
             return

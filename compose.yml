@@ -3,7 +3,7 @@ services:
     container_name: next
     build:
       context: ./frontend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.prod
     volumes:
       - ./frontend:/usr/src/app
       - node_modules:/usr/src/app/node_modules
@@ -13,6 +13,7 @@ services:
       - .env
     depends_on:
       - django
+    restart: always
 
   django:
     container_name: django
@@ -26,6 +27,7 @@ services:
     depends_on:
       - db
       - redis
+    restart: always
 
   nginx:
     container_name: nginx
@@ -41,13 +43,13 @@ services:
     depends_on:
       - next
       - django
-
+    restart: always
   redis:
     container_name: redis
     image: redis:7
     networks:
       - transcendence
-
+    restart: always
   db:
     container_name: db
     image: postgres:16.3
@@ -59,7 +61,7 @@ services:
       - POSTGRES_DB=${SQL_DATABASE}
       - POSTGRES_USER=${SQL_USER}
       - POSTGRES_PASSWORD=${SQL_PASSWORD}
-
+    restart: always
 
 
 volumes:

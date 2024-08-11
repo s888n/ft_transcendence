@@ -7,7 +7,6 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
-print("BASE_DIR", BASE_DIR)
 
 
 # Quick-start development settings - unsuitable for production
@@ -17,7 +16,7 @@ print("BASE_DIR", BASE_DIR)
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "django-insecure-password")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.environ.get("DJANGO_DEBUG", True))
+DEBUG = bool(os.environ.get("DJANGO_DEBUG", False))
 
 ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "*").split(" ")
 
