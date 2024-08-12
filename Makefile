@@ -5,6 +5,8 @@ MAGENT = \033[1;35m
 YELLOW = \033[1;33m
 BLUE = \033[1;34m
 
+
+
 all: up
 
 check:
@@ -16,7 +18,7 @@ check:
 		fi \
 	done 
 
-up: check
+up: check header
 	@echo "$(MAGENT)Starting containers...$(RESET)"
 	@docker compose up -d
 	@echo "$(GREEN)Containers started$(RESET)"
@@ -39,5 +41,18 @@ fclean:
 status:
 	@docker-compose ps
 
-
+header:
+	clear
+	@echo  "$(BLUE) $$HEADER $(RESET)"
 .PHONY: all up down fclean status check
+
+
+define HEADER
+   .--. .-.       .-.                                       .-.                        
+  : .-'.' `.     .' `.                                      : :                        
+  : `; `. .'     `. .'.--. .--.  ,-.,-. .--.  .--. ,-.,-. .-' : .--. ,-.,-. .--.  .--. 
+  : :   : :       : : : ..' .; ; : ,. :'  ..'' '_.': ,. :' .; :' '_.': ,. :'  ..'' '_.'
+  :_;   :_; _____ :_; :_; `.__,_;:_;:_;`.__.'`.__.':_;:_;`.__.'`.__.':_;:_;`.__.'`.__.'
+           :_____:                                                                     
+endef
+export HEADER
