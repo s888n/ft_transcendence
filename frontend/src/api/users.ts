@@ -57,6 +57,7 @@ export const deblock = async (username: string) => {
 }
 
 export const getUserStats = async (username: string) => {
+    console.log("usernameeee callll")
     return getAPI(`game/matches/${username}`)
         .then((res: any) => {
             return res;

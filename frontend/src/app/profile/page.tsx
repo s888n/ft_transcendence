@@ -33,6 +33,10 @@ export default function Page() {
     }
   }, [data, user])
 
+  useEffect(() => {
+    console.log("usernameeee", user?.username)
+  }, [user?.username])
+
   return (
     <div className="text-center py-16 px-4 md:px-0 text-black flex flex-col items-center gap-6 max-w-[800px] mx-auto">
       <div className="w-full flex flex-col items-center">
