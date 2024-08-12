@@ -10,7 +10,7 @@ import jwt from "jsonwebtoken";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import UserContext from "@/contexts/UserContext";
-import logo from "../../assets/pingpongpic.png";
+import logo from "../../assets/pong.png";
 import axios from "axios";
 
 export default function Page() {
@@ -48,7 +48,7 @@ export default function Page() {
 
 	const onIntraLogin = () => {
 		const intraAuthUrl =
-			"https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-9267b3fde4ad5d8140083b81f05e9fc74057eee1d70a67f1c0cd53be79342610&redirect_uri=https%3A%2F%2F10.13.4.15%2Flogin%2Fauth42&response_type=code";
+			"https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-9267b3fde4ad5d8140083b81f05e9fc74057eee1d70a67f1c0cd53be79342610&redirect_uri=https%3A%2F%2F10.13.11.1%2Flogin%2Fauth42&response_type=code";
 
 		router.push(`${intraAuthUrl}`);
 	};
@@ -89,12 +89,12 @@ export default function Page() {
 								<div className="absolute inset-0 rounded-md bg-black opacity-10"></div>
 								<div className="p-4 flex items-center justify-center gap-2 flex-col text-white absolute inset-0">
 									<h1 className="text-5xl font-bold bg-transparent">
-										Welcome to
+										
 										<span className="text-center text-myred">
 											{" "}Pong3D
 										</span>
 									</h1>
-									<p>
+									<p className="font-bold">
 										The best way to play pong online with
 										friends
 									</p>

@@ -9,7 +9,7 @@ import jwt from "jsonwebtoken";
 import Link from "next/link";
 import Modal from "./Modal";
 import { useRouter } from "next/navigation";
-import logo from "../../assets/pingpongpic.png";
+import logo from "../../assets/pong.png";
 import UserContext from "@/contexts/UserContext";
 
 export default function Page() {
@@ -84,9 +84,9 @@ export default function Page() {
               <div className="absolute inset-0 rounded-md bg-black opacity-10"></div>
               <div className="p-4 flex items-center justify-center gap-2 flex-col text-white absolute inset-0">
                 <h1 className="text-5xl font-bold bg-transparent text-myred">
-                  Welcome to Pong3D
+                  Pong3D
                 </h1>
-                <p>The best way to play ping pong online with friends</p>
+                <p className="font-bold">The best way to play ping pong online with friends</p>
               </div>
             </div>
           </div>
