@@ -1,7 +1,7 @@
 # ft_transcendence
 
 ## todos:
-
+- make the intraAuthUrl and redirect_uri use enviorment vars
 ## To run :
     - Change `10.13.3.12` with your ip in both  `.env` and `frontend/.env.production` files
     - run `docker compose up`
