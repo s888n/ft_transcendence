@@ -647,6 +647,7 @@ def intra(request):
                 "username": user.username,
                 "nickname": user.nickname,
                 "email": user.email,
+                "id": user.id
             }
         }
         refresh.payload.update(token_payload)
@@ -683,6 +684,7 @@ def intra(request):
                 "username": user.username,
                 "nickname": user.nickname,
                 "email": user.email,
+                "id": user.id
             }
         }
 
