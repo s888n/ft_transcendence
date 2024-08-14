@@ -3,7 +3,7 @@ services:
     container_name: next
     build:
       context: ./frontend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.prod
     volumes:
       - ./frontend:/usr/src/app
       - node_modules:/usr/src/app/node_modules

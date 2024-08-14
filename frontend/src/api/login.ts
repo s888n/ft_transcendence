@@ -24,7 +24,10 @@ const get42Token = async () => {
 }
 
 export const login42Intra = async () => {
+    console.log("fffg")
     const tokenRes = await get42Token();
+    console.log("fffg", tokenRes)
+
 
     return postAPI2("intra", { 'access_token': tokenRes.data['access_token'] })
         .then((res: any) => {

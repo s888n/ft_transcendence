@@ -1,13 +1,15 @@
 "use client"
 
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { login42Intra } from "@/api/login";
 import jwt from "jsonwebtoken";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
+import UserContext from "@/contexts/UserContext";
 
 export default function Home() {
   const router = useRouter()
+  const {setUser} = useContext(UserContext)
 
 
   const login42IntraCall = async () => {
@@ -18,6 +20,7 @@ export default function Home() {
       const decodedToken: any = jwt.decode(accessToken);
       localStorage.setItem("user_token", accessToken);
       localStorage.setItem("token_expiration", decodedToken.exp);
+			setUser(decodedToken.user);
       // localStorage.setItem("refresh_token", refreshToken);
       router.push("/");
     } else if (res?.status === 209) {

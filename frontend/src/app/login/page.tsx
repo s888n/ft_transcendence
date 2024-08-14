@@ -47,9 +47,7 @@ export default function Page() {
 	};
 
 	const onIntraLogin = () => {
-		const intraAuthUrl =
-			"https://api.intra.42.fr/oauth/authorize?client_id=u-s4t2ud-9267b3fde4ad5d8140083b81f05e9fc74057eee1d70a67f1c0cd53be79342610&redirect_uri=https%3A%2F%2F10.13.3.12%2Flogin%2Fauth42&response_type=code";
-
+		const intraAuthUrl = process.env.NEXT_PUBLIC_INTRA_URL;
 		router.push(`${intraAuthUrl}`);
 	};
 
