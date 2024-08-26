@@ -24,10 +24,13 @@ export default function Page() {
       const winsMatches = data?.data.filter((match: any) => {
         if (match.winner?.username === user?.username) return match
       })
+      const losesMatches = data?.data.filter((match: any) => {
+        if (match.winner?.username === user?.username && match.finished) return match
+      })
       const actualStats = {
         matches: data?.data.length,
         wins: winsMatches.length,
-        looses: data?.data.length - winsMatches.length,
+        looses: losesMatches.length,
       }
       setStats(actualStats)
     }
@@ -61,7 +64,7 @@ export default function Page() {
             <p>{stats.wins}</p>
           </div>
           <div>
-            <p>Looses</p>
+            <p>Losses</p>
             <p>{stats.looses}</p>
           </div>
         </div>

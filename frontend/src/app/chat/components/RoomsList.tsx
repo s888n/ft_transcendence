@@ -101,7 +101,7 @@ const RoomsList: React.FC<RoomsListProps> = ({ selectedChatroom, setSelectedChat
                                     <div className="relative inline-block rounded-full  overflow-hidden h-9 w-9 md:h-11 md:w-11">
                                         <img
                                             src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/${room.friend_avatar}`}
-                                            className="object-cover rounded-full"
+                                            className="object-cover rounded-full w-full h-full"
                                             alt={room.friend}
                                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                         />

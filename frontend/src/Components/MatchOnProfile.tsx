@@ -30,7 +30,7 @@ const MatchOnProfile:FC<any> = ({ match, profileUserName, searchedUser }) => {
             <div className="w-14 h-14 bg-black rounded-full overflow-hidden">
                 <img
                     className="w-full h-full object-cover"
-                    src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + (searchedUser?.avatar !== "" ? searchedUser.avatar : "default")}
+                    src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + (profileOwner?.avatar !== "" ? profileOwner.avatar : "default")}
                     alt=""
                 />
             </div>
@@ -46,7 +46,7 @@ const MatchOnProfile:FC<any> = ({ match, profileUserName, searchedUser }) => {
             <div className="w-14 h-14 bg-black rounded-full overflow-hidden">
                 <img
                     className="w-full h-full object-cover"
-                    src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + (searchedUser?.avatar !== "" ? searchedUser.avatar : "default")}
+                    src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + (otherPalyer?.avatar !== "" ? otherPalyer.avatar : "default")}
                     alt=""
                 />
             </div>

@@ -68,7 +68,7 @@ const ChatRoom: React.FC<{ user: UserType; selectedChatroom: Chatroom }> = ({ us
           <div className="relative inline-block rounded-full  h-9 w-9">
             <img
               src={`${process.env.NEXT_PUBLIC_SERVER_ENDPOINT}/apiback/images/` + (selectedChatroom.friend_avatar)}
-              className="object-cover rounded-full"
+              className="object-cover rounded-full w-full h-full"
               alt="User"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />

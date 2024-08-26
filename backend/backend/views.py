@@ -13,7 +13,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
             "username": user.username,
             "nickname": user.nickname,
             "email": user.email,
-            "id": user.id
+            "id": user.id,
+            "avatar": user.avatar,
         }
 
         return response

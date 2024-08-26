@@ -17,6 +17,7 @@ const ContextsProviders: FC<ComponentProps> = ({ children }) => {
     localStorage.setItem("user_email", newUser.email);
     localStorage.setItem("user_nickname", newUser.nickname);
     localStorage.setItem("user_id", String(newUser.id));
+    localStorage.setItem("user_avatar", newUser.avatar);
 
     setUserState(newUser);
   };

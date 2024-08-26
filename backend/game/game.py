@@ -166,9 +166,9 @@ class OnlineGameManager:
 
     def move_paddle(self, username, direction):
         if username == self.player1:
-            self.game.move_paddle(1, direction)
-        elif username == self.player2:
             self.game.move_paddle(2, direction)
+        elif username == self.player2:
+            self.game.move_paddle(1, direction)
 
     def game_state(self):
         return self.game.get_state()
