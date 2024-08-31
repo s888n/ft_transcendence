@@ -29,7 +29,7 @@
 
 | Module | Type | Description | Done |
 | --- | --- | --- | --- |
-| **Backend Framework** | Major | Use Django as a backend Framework | ✅ |
+| **Backend Framework** | Major | Django as a backend Framework | ✅ |
 | **User Management** | Major | Standard user management, authentication, users across tournaments| ✅ |
 | **Advanced 3D Techniques** | Major | The Pong game is implemented using Three.js | ✅ |
 | **Remote Players** | Major | Users can play against each other remotely | ✅ |
@@ -38,7 +38,7 @@
 | **AI Opponent** | Major | Machine Learning AI Opponent trained with Reinforcement Learning | ✅ |
 | **Server-Side Pong** | Major | Replacing Basic Pong with Server-Side Pong | ✅ |
 | **Game Customization Options** | Minor | Users can customize the game | ✅ |
-| **Database Backend** | Minor | Use PostgreSQL as a database backend | ✅ |
+| **Database Backend** | Minor | PostgreSQL as a database backend | ✅ |
 | **Browser Compatibility** | Minor | The Web App should be compatible with all major browsers | ✅ |
 
 - stuff i added:
