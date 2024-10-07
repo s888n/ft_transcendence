@@ -4,10 +4,14 @@
 - [Tech Stack](#tech-stack)
 - [Modules](#modules)
 - [Setup](#setup)
+- [Screenshots](#screenshots)
+- [Demos](#demos)
 
 ## Description
 
 [ft_transcendence](./assets/en.subject.pdf) is a web application that allows users to play a 3D version of the classic Pong game. The game is implemented using NextJS and ThreeJS and the backend is implemented using Django. Users can play against each other Localy , remotely, play against an AI opponent, create tournaments,and customize the game. The project also includes user management, authentication, and live chat.
+
+
 ## Tech Stack
 
 | Category  | Technology |
@@ -66,3 +70,21 @@ docker compose up
 
 **Note:** `Login with 42` will not work for you as it requires a 42 API key. You can replace the 42 OAuth with your own OAuth.
 
+## Screenshots
+||||
+|---|---|---|
+|containers|Login page|Dashboard|
+|<img src="./assets/images/containers.png" width="300"> |<img src="./assets/images/login.png" width="300"> | <img src="./assets/images/dashboard.png" width="300"> | 
+|Settings page|Play page|Chat page|
+|<img src="./assets/images/settings.png" width="300"> |<img src="./assets/images/play.png" width="300"> | <img src="./assets/images/chat.png" width="300"> | 
+|tournament page|game page||
+|<img src="./assets/images/tourney.png" width="300"> | <img src="./assets/images/game_page.png" width="300"> |  |
+## Demos
+||||
+|---|---|---|
+|3D Pong|Game Customization|Creating tournament|
+|<video src="./assets/videos/threeJS.mov" width="300" controls></video>|<video src="./assets/videos/customize.mov" width="300" controls></video>| <video src="./assets/videos/create tourney.mov" width="300" controls></video>|
+|AI training|AI game|Local PVP game|
+|<video src="./assets/videos/ai training.mov" width="300" controls></video>|<video src="./assets/videos/ai game.mov" width="300" controls></video>| <video src="./assets/videos/local game.mov" width="300" controls></video>|
+|Online Game|Private Chat||
+|<video src="./assets/videos/online game.mov" width="300" controls></video>|<video src="./assets/videos/chatting.mov" width="300" controls></video>| |
