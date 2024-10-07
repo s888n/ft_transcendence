@@ -80,11 +80,36 @@ docker compose up
 |tournament page|game page||
 |<img src="./assets/images/tourney.png" width="300"> | <img src="./assets/images/game_page.png" width="300"> |  |
 ## Demos
-||||
-|---|---|---|
-|3D Pong|Game Customization|Creating tournament|
-|<video src="./assets/videos/threeJS.mov" width="300" controls></video>|<video src="./assets/videos/customize.mov" width="300" controls></video>| <video src="./assets/videos/create tourney.mov" width="300" controls></video>|
-|AI training|AI game|Local PVP game|
-|<video src="./assets/videos/ai training.mov" width="300" controls></video>|<video src="./assets/videos/ai game.mov" width="300" controls></video>| <video src="./assets/videos/local game.mov" width="300" controls></video>|
-|Online Game|Private Chat||
-|<video src="./assets/videos/online game.mov" width="300" controls></video>|<video src="./assets/videos/chatting.mov" width="300" controls></video>| |
+
+### 3D Pong
+
+https://github.com/user-attachments/assets/fccf9449-74d8-411e-809c-516cfdb12d0e
+
+### Private Chat
+
+https://github.com/user-attachments/assets/3032578b-5076-4b36-95be-9c7f76e69c68
+
+### Online PVP game
+
+https://github.com/user-attachments/assets/30c54028-2352-4701-94a0-be5d4f12d4db
+
+### Creating a tournament
+
+https://github.com/user-attachments/assets/a01987d5-93ba-482e-b81f-a27062594a24
+
+### Local PVP game
+
+https://github.com/user-attachments/assets/9bcbd7fc-d7e3-479e-a119-5458f4c61bc2
+
+### AI game
+
+https://github.com/user-attachments/assets/81e5d593-5d37-4bb9-969c-f3af6a80c293
+
+### Game Cutomization
+
+https://github.com/user-attachments/assets/4ad887b5-c476-439b-aaa0-181f50cb0fed
+
+### AI training
+
+https://github.com/user-attachments/assets/70c3c1d0-8932-4094-8b88-542e66245f3d
+
