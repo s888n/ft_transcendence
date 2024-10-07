@@ -68,7 +68,7 @@ cd ft_transcendence
 docker compose up
 ```
 
-**Note:** `Login with 42` will not work for you as it requires a 42 API key. You can replace the 42 OAuth with your own OAuth.
+**Note:** `Login with 42` will not work for you as it requires a 42 API key.
 
 ## Screenshots
 ||||
